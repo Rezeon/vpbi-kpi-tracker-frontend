@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMatriksKpi } from "../api/matriksKpi";
+import { MatriksContext } from "./createcontext/divisi.context";
 
-const MatriksContext = createContext();
 
 export function MatrikProvider({ children }) {
   const { getAll, getById, remove, update, create } = useMatriksKpi();

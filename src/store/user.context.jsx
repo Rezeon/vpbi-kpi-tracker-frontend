@@ -1,10 +1,10 @@
-import React, { createContext, useEffect, useState } from "react";
-import { useUser } from "@clerk/clerk-react"; 
-
-const UserCOntext = createContext();
+import React, { useEffect, useState } from "react";
+import { UserContext } from "./createcontext/divisi.context";
+import { useUserKpi } from "../api/userKpi";
+import toast from "react-hot-toast";
 
 export function UserProvider({ children }) {
-  const { getAll, getById, remove, update, create } = useUser();
+  const { getAll, getById, remove, update, create } = useUserKpi();
 
   const [user, setuser] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ export function UserProvider({ children }) {
       try {
         setLoading(true);
         const res = await getAll();
-        setuser(res.data); 
+        setuser(res.data);
       } catch (err) {
         console.error("Error fetching user:", err);
         setError(err);
@@ -41,7 +41,13 @@ export function UserProvider({ children }) {
       const res = await create(data);
       setuser((prev) => [...prev, res.data]);
     } catch (err) {
-      console.error("Gagal create:", err);
+      const backendMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        "Terjadi kesalahan";
+
+      toast.error(backendMessage);
       setError(err);
     }
   };
@@ -49,9 +55,7 @@ export function UserProvider({ children }) {
   const handleUpdate = async (id, data) => {
     try {
       const res = await update(id, data);
-      setuser((prev) =>
-        prev.map((item) => (item.id === id ? res.data : item))
-      );
+      setuser((prev) => prev.map((item) => (item.id === id ? res.data : item)));
     } catch (err) {
       console.error("Gagal update:", err);
       setError(err);
@@ -59,7 +63,7 @@ export function UserProvider({ children }) {
   };
 
   return (
-    <UserCOntext.Provider
+    <UserContext.Provider
       value={{
         user,
         loading,
@@ -71,6 +75,6 @@ export function UserProvider({ children }) {
       }}
     >
       {children}
-    </UserCOntext.Provider>
+    </UserContext.Provider>
   );
 }

@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePenilaian } from "../api/penilaianKpi"; 
+import { PenilaianContext } from "./createcontext/divisi.context";
 
-const PenilaianContext = createContext();
 
 export function PenilaianProvider({ children }) {
   const { getAll, getById, remove, update, create } = usePenilaian();
