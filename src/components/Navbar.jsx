@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { Bell, Menu } from "lucide-react";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
+import Cari from "../assets/search.png";
 
 export default function Navbar({ onToggleSidebar }) {
   const [showNotifications, setShowNotifications] = useState(false);
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   return (
     <nav className="bg-white shadow px-4 py-2 flex items-center justify-between">
       {/* Left side: Hamburger (mobile only) + Search */}
-      <div className="flex items-center space-x-3 w-1/3">
+      <div className="flex items-center space-x-3 w-1/2">
         {/* Hamburger */}
         <button
           className="lg:hidden p-2 rounded-md hover:bg-gray-100"
@@ -18,11 +24,18 @@ export default function Navbar({ onToggleSidebar }) {
         </button>
 
         {/* Search box */}
-        <input
-          type="text"
-          placeholder="Search..."
-          className="flex-1 border rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <div className="flex items-center relative w-[40%] h-full p2">
+          <img
+            src={Cari}
+            alt=""
+            className="w-[15px] aspect-square absolute right-2"
+          />
+          <input
+            type="text"
+            placeholder="Search task.."
+            className="w-full rounded-xl border-none h-full bg-gray-100 px-4 py-1 font-semibold ring-0  focus:border-none ring-gray-100  focus:ring-1 focus:ring-gray-200 "
+          />
+        </div>
       </div>
 
       {/* Right side: Notifications + Profile */}
@@ -48,33 +61,13 @@ export default function Navbar({ onToggleSidebar }) {
         </div>
 
         {/* Profile Dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setShowProfileMenu(!showProfileMenu)}
-            className="flex items-center space-x-2 focus:outline-none"
-          >
-            <img
-              src="https://i.pravatar.cc/40"
-              alt="profile"
-              className="w-8 h-8 rounded-full border"
-            />
-          </button>
-
-          {showProfileMenu && (
-            <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg z-10">
-              <ul className="py-2 text-sm">
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                  Profile
-                </li>
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                  Settings
-                </li>
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500">
-                  Logout
-                </li>
-              </ul>
-            </div>
-          )}
+        <div className="relative flex items-center gap-1">
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </div>
     </nav>

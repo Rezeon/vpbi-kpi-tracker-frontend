@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Home, BarChart2, Settings } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import react from "../assets/react.png"
 
 export default function Sidebar({
   disableHover = false,
@@ -21,8 +22,8 @@ export default function Sidebar({
 
   return (
     <div
-      className={`h-screen bg-white  transition-all duration-300
-        ${isCollapsed ? "w-20" : "w-64"}`}
+      className={`h-screen bg-white  transition-all duration-400 shadow
+        ${isCollapsed ? "w-16" : "w-48"}`}
       onMouseEnter={() =>
         !disableHover && !forceCollapsed && setCollapsed(false)
       }
@@ -31,7 +32,7 @@ export default function Sidebar({
       }
     >
       {/* Logo */}
-      <div className="flex items-center h-16 font-bold text-xl transition-all duration-300">
+      <div className="flex items-center h-14 font-semibold text-lg">
         <div
           className={`w-full h-full flex items-center ${
             isCollapsed
@@ -39,12 +40,12 @@ export default function Sidebar({
               : "justify-start bg-blue-500 text-white pl-4"
           }`}
         >
-          {isCollapsed ? "🏢" : "MyCompany"}
+          {isCollapsed ? <img src={react} alt="" className="filter brightness-0 w-[90%] aspect-square p-2"/> : <div className="flex items-center justify-center gap-2"><p>CLAMBS</p> <img src={react} alt="" className="w-[20%] aspect-square"/> </div> }
         </div>
       </div>
 
       {/* Menu */}
-      <nav className="mt-2 flex flex-col gap-1 px-2">
+      <nav className="mt-2 flex flex-col gap-2 px-2">
         {menuItems.map((item) => {
           const active = location.pathname === item.path;
           return (
@@ -54,7 +55,7 @@ export default function Sidebar({
                 navigate(item.path);
                 if (onNavigate) onNavigate(); // 🔥 closes sidebar on mobile
               }}
-              className={`flex items-center gap-3 transition-all duration-200 rounded-lg
+              className={`flex items-center gap-3 rounded-lg
                 ${
                   active
                     ? "bg-blue-500 text-white"

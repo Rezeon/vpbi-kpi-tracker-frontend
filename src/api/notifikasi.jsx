@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 
-const api_vpbi = import.meta.env.API_URL;
+const api_vpbi = import.meta.env.VITE_API_URL;
 
 export const useNotifikasi = () => {
   const { getToken } = useAuth();

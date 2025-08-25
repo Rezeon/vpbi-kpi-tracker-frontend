@@ -54,13 +54,13 @@ export default function TaskReminder() {
               </span>
             </div>
             <p className="text-gray-500 text-sm">Due: {task.due}</p>
-            <div className="flex -space-x-2">
+            <div className="flex gap-1">
               {task.assigned.map((user, i) => (
                 <div
                   key={i}
-                  className="w-6 h-6 bg-blue-500 rounded-full text-white text-xs flex items-center justify-center border border-white"
+                  className="w-auto pt-1 pb-1 pr-2 pl-2 bg-blue-500 rounded-full font-semibold text-white text-xs flex items-center justify-center border border-white"
                 >
-                  {user[0]}
+                  {user}
                 </div>
               ))}
             </div>

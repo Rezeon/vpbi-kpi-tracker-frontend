@@ -1,7 +1,6 @@
-import React, { createContext, useState } from "react";
+import React, { useState } from "react";
 import { useNotifikasi } from "../api/notifikasi"; 
-
-const NotifikasiContext = createContext();
+import { NotifikasiContext } from "./createcontext/divisi.context";
 
 export function NotifikasiProvider({ children }) {
   const {  getById, update, create } = useNotifikasi();

@@ -2,7 +2,7 @@ import { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 
-export default function DashboardLayout({ children, rightContent }) {
+export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -43,21 +43,9 @@ export default function DashboardLayout({ children, rightContent }) {
           <div className="sticky top-0 z-30">
             <Navbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
           </div>
-
-          {/* Dashboard content */}
-          <main className="flex-1 p-4 overflow-y-auto min-w-0">
+          <main className="flex-1 p-4 overflow-y-auto min-w-0 custom-scrollbar">
             {children}
-
-            {/* Mobile → rightContent below */}
-            <div className="block lg:hidden mt-6 bg-white p-6 rounded-xl shadow">
-              {rightContent}
-            </div>
           </main>
-        </div>
-
-        {/* Right panel (desktop only) */}
-        <div className="hidden lg:block w-80 bg-white p-6 overflow-y-auto ">
-          {rightContent}
         </div>
       </div>
     </div>

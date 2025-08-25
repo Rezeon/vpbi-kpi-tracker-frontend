@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDetailKpi } from "../api/detailKpi";
+import { DetailContext } from "./createcontext/divisi.context";
 
-const DetailContext = createContext();
 
 export function DetailProvider({ children }) {
   const { getAll, getById, remove, update, create } = useDetailKpi();
