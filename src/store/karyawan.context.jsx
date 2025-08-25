@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useKaryawanKpi } from "../api/karyawanKpi";
+import { KaryawanContext } from "./createcontext/divisi.context";
 
-const KaryawanContext = createContext();
 
 export function KaryawanProvider({ children }) {
   const { getAll, getById, remove, update, create } = useKaryawanKpi();

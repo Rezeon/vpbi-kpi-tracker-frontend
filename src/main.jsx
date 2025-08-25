@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
+import { Toaster } from "react-hot-toast";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { AppProviders } from "./context/app.provider.jsx";
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")).render(
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
       <AppProviders>
         <App />
+        <Toaster position="top-right" reverseOrder={false} /> 
       </AppProviders>
     </ClerkProvider>
   </StrictMode>

@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDivisiKpi } from "../api/divisiKpi";
+import { DivisiContext } from "./createcontext/divisi.context";
 
-const DivisiContext = createContext();
 
 export function DivisiProvider({ children }) {
   const { getAll, getById, remove, update, create } = useDivisiKpi();
@@ -64,6 +64,7 @@ export function DivisiProvider({ children }) {
         divisi,
         loading,
         error,
+        setDivisi,
         handleDelete,
         handleCreate,
         handleUpdate,
