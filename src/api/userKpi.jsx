@@ -18,7 +18,7 @@ export const useUserKpi = () => {
 
   return {
     getAll: async () => {
-      return axios.get(`${api_vpbi}/user/api/AllUser`, await authHeaders());
+      return axios.get(`${api_vpbi}/user/api/all`, await authHeaders());
     },
     getById: async (id) => {
       return axios.get(`${api_vpbi}/user/api/${id}`, await authHeaders());
