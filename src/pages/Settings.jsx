@@ -1,13 +1,14 @@
-import { SetingKaryawan } from "../components/setting/setting.karyawan";
+import { SettingDivisi } from "../components/setting/setting.divisi";
+import { SetingRole } from "../components/setting/setting.role";
 import { useAuthUser } from "../utils/authUser";
 
 export function Setting() {
-    const { userLogin, user } = useAuthUser();
-    user
-    console.log("ubah", userLogin)
-    return (
-        <>
-            {userLogin?.role === "admin" && <SetingKaryawan />}
-        </>
-    );
+  const { userLogin } = useAuthUser();
+
+  return (
+    <div className="w-full h-screen flex flex-col gap-3">
+      {!userLogin?.role && <SetingRole />}
+      <SettingDivisi />
+    </div>
+  );
 }

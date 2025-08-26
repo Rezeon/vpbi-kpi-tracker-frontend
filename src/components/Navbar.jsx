@@ -7,9 +7,13 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 import Cari from "../assets/search.png";
+import { useAuthUser } from "../utils/authUser";
 
 export default function Navbar({ onToggleSidebar }) {
   const [showNotifications, setShowNotifications] = useState(false);
+  const { loading } = useAuthUser();
+
+  loading;
 
   return (
     <nav className="bg-white shadow px-4 py-2 flex items-center justify-between">

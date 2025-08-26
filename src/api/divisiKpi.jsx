@@ -25,11 +25,11 @@ export const useDivisiKpi = () => {
     create: async (data) => {
       return axios.post(`${api_vpbi}/divisi/api/add`, data, await authHeaders());
     },
-    update: async (data) => {
-      return axios.patch(`${api_vpbi}/divisi/api/update`, data, await authHeaders());
+    update: async (id, data) => {
+      return axios.patch(`${api_vpbi}/divisi/api/update/${id}`, data , await authHeaders());
     },
-    remove: async (data) => {
-      return axios.delete(`${api_vpbi}/divisi/api/delete`, data, await authHeaders());
+    remove: async (id) => {
+      return axios.delete(`${api_vpbi}/divisi/api/delete/${id}`, await authHeaders());
     },
   };
 };

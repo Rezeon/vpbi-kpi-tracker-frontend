@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Home, BarChart2, Settings } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import react from "../assets/react.png"
+import react from "../assets/react.png";
+import { useAuthUser } from "../utils/authUser";
 
 export default function Sidebar({
   disableHover = false,
@@ -11,7 +12,8 @@ export default function Sidebar({
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-
+  const { loading } = useAuthUser();
+  loading;
   const menuItems = [
     { name: "Dashboard", icon: <Home size={20} />, path: "/" },
     { name: "Reports", icon: <BarChart2 size={20} />, path: "/reports" },
@@ -40,7 +42,18 @@ export default function Sidebar({
               : "justify-start bg-blue-500 text-white pl-4"
           }`}
         >
-          {isCollapsed ? <img src={react} alt="" className="filter brightness-0 w-[90%] aspect-square p-2"/> : <div className="flex items-center justify-center gap-2"><p>CLAMBS</p> <img src={react} alt="" className="w-[20%] aspect-square"/> </div> }
+          {isCollapsed ? (
+            <img
+              src={react}
+              alt=""
+              className="filter brightness-0 w-[90%] aspect-square p-2"
+            />
+          ) : (
+            <div className="flex items-center justify-center gap-2">
+              <p>CLAMBS</p>{" "}
+              <img src={react} alt="" className="w-[20%] aspect-square" />{" "}
+            </div>
+          )}
         </div>
       </div>
 
