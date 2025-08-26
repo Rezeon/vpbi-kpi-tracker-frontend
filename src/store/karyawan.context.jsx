@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useKaryawanKpi } from "../api/karyawanKpi";
 import { KaryawanContext } from "./createcontext/divisi.context";
 
-
 export function KaryawanProvider({ children }) {
   const { getAll, getById, remove, update, create } = useKaryawanKpi();
 
@@ -15,7 +14,7 @@ export function KaryawanProvider({ children }) {
       try {
         setLoading(true);
         const res = await getAll();
-        setKaryawans(res.data); 
+        setKaryawans(res.data);
       } catch (err) {
         console.error("Error fetching karyawans:", err);
         setError(err);
