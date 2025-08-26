@@ -44,7 +44,7 @@ export function Table({ data, columns }) {
             className="mb-4 w-1/4 px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring"
           />
           <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
-            Tambah Datagit c
+            Tambah Data
           </button>
         </div>
         <table className="min-w-full border border-gray-200 rounded-lg">
