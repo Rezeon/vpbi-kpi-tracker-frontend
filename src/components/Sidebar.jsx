@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Home, BarChart2, Settings } from "lucide-react";
+import { Home, BarChart2, Settings, Users } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import react from "../assets/react.png";
 import { useAuthUser } from "../utils/authUser";
@@ -18,6 +18,7 @@ export default function Sidebar({
     { name: "Dashboard", icon: <Home size={20} />, path: "/" },
     { name: "Reports", icon: <BarChart2 size={20} />, path: "/reports" },
     { name: "Settings", icon: <Settings size={20} />, path: "/settings" },
+    { name: "Karyawan", icon: <Users size={20} />, path: "/karyawan" },
   ];
 
   const isCollapsed = forceCollapsed ? true : collapsed;
