@@ -33,6 +33,7 @@ export function MatrikProvider({ children }) {
     } catch (err) {
       console.error("Gagal delete:", err);
       setError(err);
+      throw err
     }
   };
 
@@ -43,6 +44,7 @@ export function MatrikProvider({ children }) {
     } catch (err) {
       console.error("Gagal create:", err);
       setError(err);
+      throw err
     }
   };
 

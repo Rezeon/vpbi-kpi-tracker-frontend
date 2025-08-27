@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDivisiKpi } from "../api/divisiKpi";
 import { DivisiContext } from "./createcontext/divisi.context";
-
+import toast from "react-hot-toast";
 
 export function DivisiProvider({ children }) {
   const { getAll, getById, remove, update, create } = useDivisiKpi();
@@ -15,7 +15,7 @@ export function DivisiProvider({ children }) {
       try {
         setLoading(true);
         const res = await getAll();
-        setDivisi(res.data); 
+        setDivisi(res.data);
       } catch (err) {
         console.error("Error fetching divisi:", err);
         setError(err);
@@ -41,8 +41,9 @@ export function DivisiProvider({ children }) {
       const res = await create(data);
       setDivisi((prev) => [...prev, res.data]);
     } catch (err) {
-      console.error("Gagal create:", err);
+      toast.error("Gagal create:", err);
       setError(err);
+      throw err;
     }
   };
 

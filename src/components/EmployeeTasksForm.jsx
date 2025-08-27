@@ -1,12 +1,15 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import {
   DivisiContext,
   MatriksContext,
 } from "../store/createcontext/divisi.context";
 import toast from "react-hot-toast";
 
-export default function EmployeeTasksForm() {
+export default function EmployeeTasksForm({ userLogin }) {
+  console.log(userLogin);
+
   const [form, setForm] = useState({
+    karyawanId: 0,
     namaKPI: "",
     deskripsi: "",
     bobot: 0,
@@ -19,51 +22,21 @@ export default function EmployeeTasksForm() {
     handleUpdate,
     handleDelete,
     getById: getMatriksById,
+    error,
   } = useContext(MatriksContext);
 
   const today = new Date().toISOString().split("T")[0];
 
   const [divisiId, setDivisiId] = useState("");
-  const [divisiDetail, setDivisiDetail] = useState(null);
   const [dueDate, setDueDate] = useState(today);
 
-  const [employee, setEmployee] = useState("");
-  const [points, setPoints] = useState("");
-  const [task, setTask] = useState("");
-  const [collaborators, setCollaborators] = useState([]);
-
   const pointsOptions = [10, 20, 30, 50];
-
-  useEffect(() => {
-    if (divisiId) {
-      const fetchDivisi = async () => {
-        try {
-          const detail = await getDivisiById(divisiId);
-          setDivisiDetail(detail.data);
-        } catch (err) {
-          toast.error("Gagal ambil divisi detail:", err);
-          setDivisiDetail(null);
-        }
-      };
-      fetchDivisi();
-    } else {
-      setDivisiDetail(null);
-    }
-  }, [divisiId, getDivisiById]);
-
-  const handleCollaboratorChange = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setCollaborators([...collaborators, value]);
-    } else {
-      setCollaborators(collaborators.filter((c) => c !== value));
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const payload = {
+        karyawanId: Number(form.karyawanId),
         namaKPI: form.namaKPI,
         deskripsi: form.deskripsi,
         bobot: Number(form.bobot),
@@ -73,7 +46,11 @@ export default function EmployeeTasksForm() {
       await handleCreate(payload);
       toast.success("Matriks berhasil ditambahkan!");
     } catch (err) {
-      toast.error("Gagal menambahkan matriks.");
+      const message =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Gagal menambahkan matriks.";
+      toast.error(message);
     }
   };
 
@@ -83,43 +60,56 @@ export default function EmployeeTasksForm() {
 
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         {/* Division */}
-        <div className="w-full group">
-          <label className="block mb-1 font-medium">Division</label>
-          <select
-            value={divisiId}
-            onChange={(e) => setDivisiId(e.target.value)}
-            className="w-full bg-transparent px-2 py-2 focus:outline-none"
-            required
-          >
-            <option value="" disabled hidden>
-              Select divisi
-            </option>
-            {divisi?.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.nama}
+
+        {userLogin?.role === "leader" ? (
+          <div className="w-full h-auto rounded-2xl gap-2 bg-blue-600 text-[1rem] font-semibold font-sans flex items-center justify-between">
+            <p className=" h-full rounded-2xl text-white shadow pl-6 ">
+              Division
+            </p>
+            <p className="text-white font-semibold font-sans pr-6 h-full transition-all duration-300 ">
+              {userLogin.divisiLeader.nama || "tidak ada divisi"}
+            </p>
+          </div>
+        ) : (
+          <div className="w-full group">
+            <label className="block mb-1 font-medium">Division</label>
+            <select
+              value={divisiId}
+              onChange={(e) => setDivisiId(e.target.value)}
+              className="w-full bg-transparent px-2 py-2 focus:outline-none"
+              required
+            >
+              <option value="" disabled hidden>
+                Select divisi
               </option>
-            ))}
-          </select>
-          <div
-            className={`h-1 rounded-2xl transition-all duration-300 
+              {divisi?.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.nama}
+                </option>
+              ))}
+            </select>
+            <div
+              className={`h-1 rounded-2xl transition-all duration-300 
               ${divisiId ? "bg-blue-500 w-[100%]" : "bg-gray-400 w-[11%]"}`}
-          />
-        </div>
+            />
+          </div>
+        )}
 
         {/* Employee */}
         <div className="w-full group">
           <label className="block mb-1 font-medium">Assign Employee</label>
           <select
-            value={employee}
-            onChange={(e) => setEmployee(e.target.value)}
+            value={form.karyawanId}
+            onChange={(e) => setForm({ ...form, karyawanId: e.target.value })}
             className="w-full bg-transparent px-2 py-2 focus:outline-none"
             required
-            disabled={!divisiDetail}
+            disabled={!userLogin.divisiLeader.karyawan}
           >
             <option value="" disabled hidden>
-              {divisiDetail ? "Select employee" : "Select divisi first"}
+              {" "}
+              Select employe
             </option>
-            {divisiDetail?.karyawan?.map((emp) => (
+            {userLogin.divisiLeader.karyawan?.map((emp) => (
               <option key={emp.id} value={emp.id}>
                 {emp.nama}
               </option>
@@ -127,7 +117,9 @@ export default function EmployeeTasksForm() {
           </select>
           <div
             className={`h-1 rounded-2xl transition-all duration-300 
-              ${employee ? "bg-blue-500 w-[100%]" : "bg-gray-400 w-[11%]"}`}
+              ${
+                form.karyawanId ? "bg-blue-500 w-[100%]" : "bg-gray-400 w-[11%]"
+              }`}
           />
         </div>
 
@@ -184,35 +176,11 @@ export default function EmployeeTasksForm() {
           />
           <div
             className={`h-1 rounded-2xl transition-all duration-300 
-              ${form.deskripsi ? "bg-blue-500 w-[100%]" : "bg-gray-400 w-[11%]"}`}
+              ${
+                form.deskripsi ? "bg-blue-500 w-[100%]" : "bg-gray-400 w-[11%]"
+              }`}
           />
         </div>
-
-        {/* Collaborators */}
-        {divisiDetail && (
-          <div>
-            <label className="block mb-1 font-medium">Collaborators</label>
-            <div className="flex h-[130px] pt-2 pb-2 flex-col gap-3 overflow-y-scroll custom-scrollbar">
-              {divisiDetail.karyawan?.map((c) => (
-                <label
-                  key={c.id}
-                  className="flex items-center gap-2 cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    value={c.nama}
-                    checked={collaborators.includes(c.nama)}
-                    onChange={handleCollaboratorChange}
-                    className="h-4 w-4 rounded-full border border-gray-400 checked:bg-blue-500 checked:border-blue-500"
-                  />
-                  <span className="font-semibold w-auto px-4 py-1 bg-blue-500 text-white rounded-2xl">
-                    {c.nama}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Due Date */}
         <div className="w-full group">
