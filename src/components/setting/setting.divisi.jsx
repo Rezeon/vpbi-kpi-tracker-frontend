@@ -93,7 +93,7 @@ export function SettingDivisi() {
   };
 
   return (
-    <div className="w-full h-auto p-3 font-sans">
+    <div className="w-full h-auto p-1 font-sans">
       <form
         className="bg-white rounded-2xl p-3 shadow flex flex-col items-start gap-4 relative"
         onSubmit={handleSubmit}

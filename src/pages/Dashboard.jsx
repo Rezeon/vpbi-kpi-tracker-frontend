@@ -4,6 +4,9 @@ import TaskReminder from "../components/TaskReminder";
 import done from "../assets/done.png";
 import inpro from "../assets/inpro.png";
 import pro from "../assets/task.png";
+import { useAuth } from "@clerk/clerk-react";
+import { useAuthUser } from "../utils/authUser";
+import LoadingPage from "../components/loading/loading";
 const task = {
   tasks: {
     allTask: 35,
@@ -28,6 +31,14 @@ const task = {
 };
 
 export default function Dashboard() {
+  const { userLogin, loading } = useAuthUser();
+  if (loading) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingPage />
+      </div>
+    );
+  }
   return (
     <div className="flex w-full h-auto gap-6 font-sans ">
       <div className="w-10/12 h-screen flex-1">
@@ -48,16 +59,19 @@ export default function Dashboard() {
               </div>
               <hr className="my-2 border border-gray-600" />
               <div className="w-full p-2 flex flex-col h-auto gap-3">
-                <p className="font-semibold text-gray-700"> from {task.tasks.allTask} {tak.title} {tak.task}</p>
-              <div className="w-full relative h-[10px]">
-                <div className="h-full w-full rounded-2xl bg-gray-200 absolute "></div>
-                <div
-                  className="h-full z-1 rounded-2xl bg-blue-400 absolute "
-                  style={{
-                    width: `${(tak.task / task.tasks.allTask) * 100}%`,
-                  }}
-                ></div>
-              </div>
+                <p className="font-semibold text-gray-700">
+                  {" "}
+                  from {task.tasks.allTask} {tak.title} {tak.task}
+                </p>
+                <div className="w-full relative h-[10px]">
+                  <div className="h-full w-full rounded-2xl bg-gray-200 absolute "></div>
+                  <div
+                    className="h-full z-1 rounded-2xl bg-blue-400 absolute "
+                    style={{
+                      width: `${(tak.task / task.tasks.allTask) * 100}%`,
+                    }}
+                  ></div>
+                </div>
               </div>
             </div>
           ))}
@@ -65,7 +79,8 @@ export default function Dashboard() {
         <TaskChart />
         <TaskReminder />
       </div>
-      <EmployeeTasksForm />
+
+      {userLogin?.role === "admin" || userLogin?.role === "leader" && (<EmployeeTasksForm userLogin={userLogin}/>)}
     </div>
   );
 }

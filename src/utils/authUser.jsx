@@ -21,7 +21,7 @@ export const useAuthUser = () => {
             setUserLogin(res.data);
           }
         })
-        .catch((err) => setError(err))
+        .catch((err) => setError(err.response.data))
         .finally(() => setLoading(false));
     }
   }, [user]);
