@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import DashboardLayout from "./layouts/DashboardLayout";
 import { Setting } from "./pages/Settings";
 import { Karyawan } from "./pages/Karyawan";
+import { AddKaryawan } from "./pages/AddKaryawan";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/settings" element={<Setting />} />
           <Route path="/karyawan" element={<Karyawan />} />
+          <Route path="/karyawan/add" element={<AddKaryawan />} />
         </Routes>
       </DashboardLayout>
     </BrowserRouter>

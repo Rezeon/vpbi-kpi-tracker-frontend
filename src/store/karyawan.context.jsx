@@ -30,7 +30,7 @@ export function KaryawanProvider({ children }) {
       await remove(id);
       setKaryawans((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
-      console.error("Gagal delete:", err);
+      console.error("Gagal delete:", err.responses.data);
       setError(err);
     }
   };
@@ -40,7 +40,7 @@ export function KaryawanProvider({ children }) {
       const res = await create(data);
       setKaryawans((prev) => [...prev, res.data]);
     } catch (err) {
-      console.error("Gagal create:", err);
+      console.error("Gagal create:", err.responses.data);
       setError(err);
     }
   };
@@ -52,7 +52,7 @@ export function KaryawanProvider({ children }) {
         prev.map((item) => (item.id === id ? res.data : item))
       );
     } catch (err) {
-      console.error("Gagal update:", err);
+      console.error("Gagal update:", err.responses.data);
       setError(err);
     }
   };
