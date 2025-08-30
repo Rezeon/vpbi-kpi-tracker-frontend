@@ -24,7 +24,7 @@ export function MatrikProvider({ children }) {
       }
     }
     fetchMatrik();
-  }, []);
+  }, [setMatriks]);
 
   const handleDelete = async (id) => {
     try {

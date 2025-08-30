@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../store/createcontext/divisi.context";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const createRole = {
   role: [
@@ -10,7 +11,8 @@ const createRole = {
 };
 
 export function SetingRole() {
-  const { user, handleCreate } = useContext(UserContext);
+  const navigate = useNavigate()
+  const { handleCreate } = useContext(UserContext);
   const [form, setForm] = useState({
     role: "",
   });
@@ -25,6 +27,7 @@ export function SetingRole() {
       console.log("Final data:", data);
       await handleCreate(data);
       toast.success("Role berhasil ditambahkan!");
+      navigate("/dashboard")
     } catch (err) {
       toast.error("Gagal menambahkan role.");
     }
@@ -37,7 +40,7 @@ export function SetingRole() {
         onSubmit={handleSubmit}
       >
         <div className="w-full h-auto p-3 flex flex-col gap-4">
-          <label className="w-full p-1 text-2xl font-bold">Create Role</label>
+          <label className="w-full p-1 text-2xl font-bold">Create Role first</label>
 
           <select
             className="w-fit bg-transparent px-2 py-2 focus:outline-none"

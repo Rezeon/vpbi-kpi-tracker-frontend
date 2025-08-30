@@ -135,11 +135,13 @@ export function SettingDivisi() {
             <option value={null} disabled hidden>
               Select employee
             </option>
-            {user?.map((emp) => (
-              <option key={emp.id} value={emp.id}>
-                {emp.username}
-              </option>
-            ))}
+            {user
+              ?.filter((emp) => emp.role === "leader") 
+              .map((emp) => (
+                <option key={emp.id} value={emp.id}>
+                  {emp.username}
+                </option>
+              ))}
           </select>
           <div
             className={`h-1 rounded-2xl transition-all duration-300 

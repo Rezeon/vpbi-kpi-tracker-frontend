@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Home, BarChart2, Settings, ClipboardList } from "lucide-react";
-import task from "../assets/task.png"
 import { useLocation, useNavigate } from "react-router-dom";
 import react from "../assets/react.png";
 import { useAuthUser } from "../utils/authUser";

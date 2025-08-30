@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Bell, Menu } from "lucide-react";
 import {
   SignedIn,
@@ -8,12 +8,21 @@ import {
 } from "@clerk/clerk-react";
 import Cari from "../assets/search.png";
 import { useAuthUser } from "../utils/authUser";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar({ onToggleSidebar }) {
   const [showNotifications, setShowNotifications] = useState(false);
-  const { loading } = useAuthUser();
+  const { user, userLogin, loading } = useAuthUser();
+  const navigate = useNavigate()
 
-  loading;
+  useEffect(() => {
+    if (loading) return;
+    if (user === null) {
+      navigate("/sign-in");
+    } else if (userLogin === null) {
+      navigate("/settings");
+    }
+  },);
 
   return (
     <nav className="bg-white shadow px-4 py-2 flex items-center justify-between">
