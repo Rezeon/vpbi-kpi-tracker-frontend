@@ -12,6 +12,10 @@ export function NotifikasiProvider({ children }) {
     { id: 1, judul: "Email", message: "Notifikasi 1 sudah terbaca", status: true, createdAt: "2024-10-01T10:00:00Z" },
     { id: 2, judul: "SMS", message: "Notifikasi 2 sudah terbaca", status: true, createdAt: "2024-10-01T10:00:00Z" },
     { id: 3, judul: "Push", message: "Notifikasi 3 belum terbaca", status: false, createdAt: "2024-10-01T10:00:00Z" },
+    { id: 4, judul: "Email", message: "Notifikasi 4 sudah terbaca", status: true, createdAt: "2024-10-01T10:00:00Z" },
+    { id: 5, judul: "SMS", message: "Notifikasi 5 belum terbaca", status: false, createdAt: "2024-10-01T10:00:00Z" },
+    { id: 6, judul: "Push", message: "Notifikasi 6 sudah terbaca", status: true, createdAt: "2024-10-01T10:00:00Z" },
+    { id: 7, judul: "Email", message: "Notifikasi 7 belum terbaca", status: false, createdAt: "2024-10-01T10:00:00Z" },
   ];
 
 
@@ -21,7 +25,7 @@ export function NotifikasiProvider({ children }) {
     const fetchData = async () => {
       try {
         //const res = await getById(userId);
-        setNotifikasi(testmyarray); // respon dari backend
+        setNotifikasi(testmyarray); // respon dari backend(ini niatnya nge-fetch cmn lagi testing)
       } catch (err) {
         console.error("gagal fetch:", err);
         setError(err);

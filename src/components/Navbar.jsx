@@ -16,7 +16,7 @@ export default function Navbar({ onToggleSidebar }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const { user, userLogin, loading } = useAuthUser();
   const { notifikasi } = useNotifikasiContext();
-  console.log(notifikasi);
+  const unreadCount = notifikasi.filter((item) => !item.status).length;
 
   const navigate = useNavigate()
 
@@ -65,14 +65,40 @@ export default function Navbar({ onToggleSidebar }) {
             className="p-2 rounded-full hover:bg-gray-100"
           >
             <Bell className="w-6 h-6 text-gray-600" />
+            {unreadCount > 0 && (
+              <p className="text-xs text-blue-500 font-medium">
+              {unreadCount} new
+              </p>
+            )}
+            
           </button>
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-4 z-10">
-              <p className="text-sm font-semibold">Notifications</p>
-              <ul className="mt-2 space-y-2 text-sm">
-                <li className="border-b pb-2">New user registered</li>
-                <li className="border-b pb-2">Order #1002 pending</li>
-                <li>System update available</li>
+            <div className="absolute right-0 mt-2 w-80 bg-white shadow-lg rounded-xl p-4 z-10 border">
+              <p className="text-base font-semibold border-b pb-2 flex justify-between items-center">
+                Notifications
+                <span className="text-xs bg-blue-500 text-white px-2 py-0.5 rounded-full">
+                  {unreadCount}
+                </span>
+              </p>
+              <ul className="mt-3 space-y-3 text-sm max-h-64 overflow-y-auto">
+                {[...notifikasi].reverse().map((item) => (
+                  <li
+                    key={item.id}
+                    className={`p-3 rounded-md border-l-4 transition 
+                      ${item.status
+                        ? "border-gray-300 bg-gray-50 hover:bg-gray-100"
+                        : "border-blue-500 bg-blue-50 hover:bg-blue-100"
+                      }`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <span className="font-semibold">{item.judul}</span>
+                      <span className="text-xs text-gray-500">
+                        {new Date(item.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <p className="text-gray-700">{item.message}</p>
+                  </li>
+                ))}
               </ul>
             </div>
           )}
