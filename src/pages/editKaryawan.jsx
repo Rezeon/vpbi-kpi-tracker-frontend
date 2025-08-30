@@ -1,16 +1,21 @@
-import React, { useContext, useState } from "react";
-import {
-  KaryawanContext,
-  DivisiContext,
-  UserContext,
-} from "../store/createcontext/divisi.context";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { KaryawanContext } from "../store/createcontext/divisi.context";
+import { DivisiContext } from "../store/createcontext/divisi.context";
+import { UserContext } from "../store/createcontext/divisi.context";
 
-export function AddKaryawan() {
-  const { handleCreate } = useContext(KaryawanContext);
+export function EditKaryawan() {
+  const { id } = useParams();
+  const { karyawans, loading, error, handleUpdate } =
+    useContext(KaryawanContext);
   const { divisi } = useContext(DivisiContext);
   const { user } = useContext(UserContext);
 
+  const navigate = useNavigate();
+
+  const row = karyawans.find((r) => r.id === Number(id));
   const [formData, setFormData] = useState({
+    id: "",
     nama: "",
     posisi: "",
     divisiId: "",
@@ -19,27 +24,32 @@ export function AddKaryawan() {
     email: "",
   });
 
+  useEffect(() => {
+    if (row)
+      setFormData({
+        ...row,
+        tanggalMasuk: row.tanggalMasuk ? row.tanggalMasuk.slice(0, 10) : "",
+      });
+  }, [row]);
+
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const dataKaryawan = {
       ...formData,
       divisiId: Number(formData.divisiId),
       userId: Number(formData.userId),
     };
-    handleCreate(dataKaryawan);
-    setFormData({
-      nama: "",
-      posisi: "",
-      divisiId: "",
-      userId: "",
-      tanggalMasuk: "",
-      email: "",
-    });
-  }
+    handleUpdate(formData.id, dataKaryawan);
+    navigate("/karyawan");
+  };
+
+  if (loading) return <p>Loading... </p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!row) return <p>Not Found</p>;
 
   return (
     <div className="w-full">
@@ -123,7 +133,7 @@ export function AddKaryawan() {
             type="submit"
             className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition mt-5"
           >
-            Simpan
+            Update
           </button>
         </div>
       </form>
