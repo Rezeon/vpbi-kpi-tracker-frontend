@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNotifikasi } from "../api/notifikasi"; 
 import { NotifikasiContext } from "./createcontext/divisi.context";
 
@@ -7,6 +7,28 @@ export function NotifikasiProvider({ children }) {
 
   const [notifikasi, setNotifikasi] = useState([]);
   const [error, setError] = useState(null);
+
+  const testmyarray = [
+    { id: 1, judul: "Email", message: "Notifikasi 1 sudah terbaca", status: true, createdAt: "2024-10-01T10:00:00Z" },
+    { id: 2, judul: "SMS", message: "Notifikasi 2 sudah terbaca", status: true, createdAt: "2024-10-01T10:00:00Z" },
+    { id: 3, judul: "Push", message: "Notifikasi 3 belum terbaca", status: false, createdAt: "2024-10-01T10:00:00Z" },
+  ];
+
+
+  useEffect(() => {
+    // nge-fetch data notifikasi berdasarkan userId
+    const userId = 123; // nanti disesuaikan dengan user yang login
+    const fetchData = async () => {
+      try {
+        //const res = await getById(userId);
+        setNotifikasi(testmyarray); // respon dari backend
+      } catch (err) {
+        console.error("gagal fetch:", err);
+        setError(err);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleCreate = async (userId) => {
     try {
@@ -44,3 +66,5 @@ export function NotifikasiProvider({ children }) {
     </NotifikasiContext.Provider>
   );
 }
+
+export const useNotifikasiContext = () => useContext(NotifikasiContext);

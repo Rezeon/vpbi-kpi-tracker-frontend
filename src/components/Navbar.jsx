@@ -9,10 +9,15 @@ import {
 import Cari from "../assets/search.png";
 import { useAuthUser } from "../utils/authUser";
 import { useNavigate } from "react-router-dom";
+import { useNotifikasiContext } from "../store/notifikasi.context";
+
 
 export default function Navbar({ onToggleSidebar }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const { user, userLogin, loading } = useAuthUser();
+  const { notifikasi } = useNotifikasiContext();
+  console.log(notifikasi);
+
   const navigate = useNavigate()
 
   useEffect(() => {
