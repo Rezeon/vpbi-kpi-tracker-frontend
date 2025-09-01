@@ -15,7 +15,7 @@ import { useNotifikasiContext } from "../store/notifikasi.context";
 export default function Navbar({ onToggleSidebar }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const { user, userLogin, loading } = useAuthUser();
-  const { notifikasi } = useNotifikasiContext();
+  const { notifikasi, setNotifikasi } = useNotifikasiContext();
   const unreadCount = notifikasi.filter((item) => !item.status).length;
 
   const navigate = useNavigate()
@@ -83,7 +83,14 @@ export default function Navbar({ onToggleSidebar }) {
               <ul className="mt-3 space-y-3 text-sm max-h-64 overflow-y-auto">
                 {[...notifikasi].reverse().map((item) => (
                   <li
-                    key={item.id}
+                  key={item.id}
+                    onClick={() =>
+                      setNotifikasi((prev) =>
+                        prev.map((notif) =>
+                          notif.id === item.id ? { ...notif, status: true } : notif
+                        )
+                      )
+                    }
                     className={`p-3 rounded-md border-l-4 transition 
                       ${item.status
                         ? "border-gray-300 bg-gray-50 hover:bg-gray-100"
@@ -96,7 +103,9 @@ export default function Navbar({ onToggleSidebar }) {
                         {new Date(item.createdAt).toLocaleDateString()}
                       </span>
                     </div>
-                    <p className="text-gray-700">{item.message}</p>
+                    <p className="text-gray-700 truncate w-48">
+                      {item.message}
+                    </p>
                   </li>
                 ))}
               </ul>
