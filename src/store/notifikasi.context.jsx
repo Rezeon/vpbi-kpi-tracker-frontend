@@ -15,7 +15,7 @@ export function NotifikasiProvider({ children }) {
     { id: 4, judul: "Email", message: "Notifikasi 4 sudah terbaca", status: true, createdAt: "2024-10-01T10:00:00Z" },
     { id: 5, judul: "SMS", message: "Notifikasi 5 belum terbaca", status: false, createdAt: "2024-10-01T10:00:00Z" },
     { id: 6, judul: "Push", message: "Notifikasi 6 sudah terbaca", status: true, createdAt: "2024-10-01T10:00:00Z" },
-    { id: 7, judul: "Email", message: "Notifikasi 7 belum terbaca dan pesan berlebih", status: false, createdAt: "2024-10-01T10:00:00Z" },
+    { id: 7, judul: "Email", message: "Notifikasi 7 belum terbaca dan peasdfsadfsadfsdafasdfsadfdsafasdfsdfsan sadhfkjdfgkadshfghfgsdfgadsiyufiysdgfidgsfiadgsyadgsadgsfadgfiydfberlebih", status: false, createdAt: "2024-10-01T10:00:00Z" },
   ];
 
 

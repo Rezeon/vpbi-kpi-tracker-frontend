@@ -16,6 +16,7 @@ export default function Navbar({ onToggleSidebar }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const { user, userLogin, loading } = useAuthUser();
   const { notifikasi, setNotifikasi } = useNotifikasiContext();
+  const [selectedNotif, setSelectedNotif] = useState(null);
   const unreadCount = notifikasi.filter((item) => !item.status).length;
 
   const navigate = useNavigate()
@@ -84,14 +85,16 @@ export default function Navbar({ onToggleSidebar }) {
                 {[...notifikasi].reverse().map((item) => (
                   <li
                   key={item.id}
-                    onClick={() =>
+                    onClick={() => {
                       setNotifikasi((prev) =>
                         prev.map((notif) =>
                           notif.id === item.id ? { ...notif, status: true } : notif
                         )
                       )
+                      setSelectedNotif(item)
+                      }
                     }
-                    className={`p-3 rounded-md border-l-4 transition 
+                    className={`p-3 rounded-md border-l-4 transition cursor-pointer
                       ${item.status
                         ? "border-gray-300 bg-gray-50 hover:bg-gray-100"
                         : "border-blue-500 bg-blue-50 hover:bg-blue-100"
@@ -109,6 +112,36 @@ export default function Navbar({ onToggleSidebar }) {
                   </li>
                 ))}
               </ul>
+            </div>
+          )}
+          {selectedNotif && (
+            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+              <div className="bg-white rounded-xl shadow-lg p-6 w-180">
+                <h2 className="text-lg font-semibold">{selectedNotif.judul}</h2>
+                <p className="text-sm text-gray-500">
+                  {new Date(selectedNotif.createdAt).toLocaleString()}
+                </p>
+                <p className="mt-3 text-gray-700">{selectedNotif.message}</p>
+                <div className="mt-5 flex justify-end gap-3">
+                <button
+                  onClick={() => setSelectedNotif(null)}
+                  className="mt-5 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => {
+                    setNotifikasi((prev) =>
+                      prev.filter((n) => n.id !== selectedNotif.id)
+                    );
+                    setSelectedNotif(null);
+                  }}
+                  className="mt-5 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                >
+                  Delete
+                </button>
+                </div>
+              </div>
             </div>
           )}
         </div>
