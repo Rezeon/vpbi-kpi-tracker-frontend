@@ -9,7 +9,6 @@ export function AddKaryawan() {
   const { handleCreate } = useContext(KaryawanContext);
   const { divisi } = useContext(DivisiContext);
   const { user } = useContext(UserContext);
-
   const [formData, setFormData] = useState({
     nama: "",
     posisi: "",

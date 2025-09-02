@@ -30,7 +30,7 @@ export function KaryawanProvider({ children }) {
       await remove(id);
       setKaryawans((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
-      console.error("Gagal delete:", err.responses.data);
+      console.error("Gagal delete:", err);
       setError(err);
     }
   };
@@ -47,7 +47,7 @@ export function KaryawanProvider({ children }) {
 
   const handleUpdate = async (id, data) => {
     try {
-      const res = await update(id, data);
+      const res = await update(data);
       setKaryawans((prev) =>
         prev.map((item) => (item.id === id ? res.data : item))
       );
