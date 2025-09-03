@@ -10,19 +10,19 @@ import { UserProvider } from "../store/user.context";
 export function AppProviders({ children }) {
   return (
     <UserProvider>
-      <DivisiProvider>
-        <KaryawanProvider>
-          <DetailProvider>
-            <PenilaianProvider>
+      <PenilaianProvider>
+        <DivisiProvider>
+          <KaryawanProvider>
+            <DetailProvider>
               <MatrikProvider>
                 <NotifikasiProvider>
                   <LaporanProvider>{children}</LaporanProvider>
                 </NotifikasiProvider>
               </MatrikProvider>
-            </PenilaianProvider>
-          </DetailProvider>
-        </KaryawanProvider>
-      </DivisiProvider>
+            </DetailProvider>
+          </KaryawanProvider>
+        </DivisiProvider>
+      </PenilaianProvider>
     </UserProvider>
   );
 }

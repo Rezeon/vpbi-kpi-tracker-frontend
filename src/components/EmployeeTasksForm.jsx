@@ -6,18 +6,13 @@ import {
 import toast from "react-hot-toast";
 
 export default function EmployeeTasksForm({ userLogin }) {
-  console.log(userLogin);
-
   const [form, setForm] = useState({
     karyawanId: "",
     namaKPI: "",
     deskripsi: "",
     bobot: "",
   });
-  const {
-    handleCreate,
-    
-  } = useContext(MatriksContext);
+  const { handleCreate } = useContext(MatriksContext);
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -34,9 +29,13 @@ export default function EmployeeTasksForm({ userLogin }) {
         deskripsi: form.deskripsi,
         bobot: Number(form.bobot),
       };
-
-      console.log("Final payload:", payload);
       await handleCreate(payload);
+      setForm({
+        karyawanId: "",
+        namaKPI: "",
+        deskripsi: "",
+        bobot: "",
+      });
       toast.success("Matriks berhasil ditambahkan!");
     } catch (err) {
       const message =
@@ -48,7 +47,7 @@ export default function EmployeeTasksForm({ userLogin }) {
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-xl p-6 font-sans w-1/4">
+    <div className="bg-white shadow-lg rounded-xl p-6 font-sans w-full">
       <h2 className="text-xl font-semibold mb-6">Add Employee Task</h2>
 
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>

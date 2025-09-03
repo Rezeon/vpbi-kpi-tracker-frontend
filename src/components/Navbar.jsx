@@ -27,7 +27,7 @@ export default function Navbar({ onToggleSidebar }) {
   return (
     <nav className="bg-white shadow px-4 py-2 flex items-center justify-between">
       {/* Left side: Hamburger (mobile only) + Search */}
-      <div className="flex items-center space-x-3 w-1/2">
+      <div className="flex items-center space-x-3 w-2/3  ">
         {/* Hamburger */}
         <button
           className="lg:hidden p-2 rounded-md hover:bg-gray-100"
@@ -37,7 +37,7 @@ export default function Navbar({ onToggleSidebar }) {
         </button>
 
         {/* Search box */}
-        <div className="flex items-center relative w-[40%] h-full p2">
+        <div className="flex items-center relative w-[100%] sm:w-[40%] md:w-[40%] lg:w-[40%] h-full p2">
           <img
             src={Cari}
             alt=""

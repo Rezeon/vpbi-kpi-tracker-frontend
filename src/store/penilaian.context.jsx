@@ -6,7 +6,7 @@ import { PenilaianContext } from "./createcontext/divisi.context";
 export function PenilaianProvider({ children }) {
   const { getAll, getById, remove, update, create } = usePenilaian();
 
-  const [penilian, setPenilaian] = useState([]);
+  const [penilaian, setPenilaian] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -40,6 +40,7 @@ export function PenilaianProvider({ children }) {
     try {
       const res = await create(data);
       setPenilaian((prev) => [...prev, res.data]);
+      return res.data
     } catch (err) {
       console.error("Gagal create:", err);
       setError(err);
@@ -61,7 +62,7 @@ export function PenilaianProvider({ children }) {
   return (
     <PenilaianContext.Provider
       value={{
-        penilian,
+        penilaian,
         loading,
         error,
         handleDelete,
