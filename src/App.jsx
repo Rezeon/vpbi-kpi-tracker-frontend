@@ -14,8 +14,8 @@ export default function App() {
             path="/sign-in"
             element={<SignIn routing="path" path="/sign-in" />}
           />
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/settings" element={<Setting />} />
+          {/* <Route path="/" element={<Dashboard />} />
+          <Route path="/settings" element={<Setting />} /> */}
         </Routes>
       </DashboardLayout>
     </BrowserRouter>
