@@ -22,8 +22,7 @@ export default function Navbar({ onToggleSidebar }) {
     } else if (userLogin === null) {
       navigate("/settings");
     }
-  },);
-
+  },[]);
   return (
     <nav className="bg-white shadow px-4 py-2 flex items-center justify-between">
       {/* Left side: Hamburger (mobile only) + Search */}

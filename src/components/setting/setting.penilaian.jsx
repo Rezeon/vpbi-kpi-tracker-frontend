@@ -164,7 +164,7 @@ export function SettingPenilaian({ matrik, userLogin }) {
     }
   };
   return (
-    <div className="w-full p-1 sm:p-1 md:p-1 sha lg:p-1 h-auto flex flex-col items-start gap-3">
+    <div className="w-full p-1 sm:p-1 md:p-1 lg:p-1 h-auto flex flex-col items-start gap-3">
       {divisiLeader.map((d) => (
         <div
           className={`w-full flex gap-1 relative bg-white rounded-2xl shadow p-3 ${
@@ -221,11 +221,11 @@ export function SettingPenilaian({ matrik, userLogin }) {
                       <div className="w-full text-lg p-2 sm:p-0 md:p-0 lg:p-0 sm:w-full md:w-1/8 lg:w-1/10  h-full">
                         <p>{m.deskripsi}</p>
                       </div>
-                      <div className="flex items-center justify-between w-[100%] sm:w-[90%] md:w-[25%] lg:w-[23%] gap-2">
-                        <p className="w-auto sm:w-1/4 md:w-1/8 lg:w-[50%] flex text-[1rem] items-center justify-center p-3 bg-amber-400 h-1/2 text-white font-semibold rounded-2xl">
+                      <div className="flex items-center justify-between w-[100%] sm:w-[90%] md:w-[30%] lg:w-[23%] gap-2">
+                        <p className="w-auto sm:w-1/4 md:w-[50%] lg:w-[50%] flex text-[1rem] items-center justify-center p-3 bg-amber-400 h-1/2 text-white font-semibold rounded-2xl">
                           Weight: {m.bobot}%
                         </p>
-                        <div className="w-auto sm:w-1/4 md:w-1/8 lg:w-[50%] flex text-[1rem] items-center justify-center p-3 bg-green-600 h-1/2 text-white font-semibold rounded-2xl">
+                        <div className="w-auto sm:w-1/4 md:w-[50%] lg:w-[50%] flex text-[1rem] items-center justify-center p-3 bg-green-600 h-1/2 text-white font-semibold rounded-2xl">
                           <p>
                             Score:{" "}
                             {detail.find((d) => d.matriksId === m.id)?.nilai ??
@@ -390,7 +390,7 @@ export function SettingPenilaian({ matrik, userLogin }) {
                       )}
 
                       <div
-                        className={`h-1 rounded-2xl transition-all duration-1000 absolute hidden md:block lg:bottom-1
+                        className={`h-1 rounded-2xl transition-all duration-1000 absolute hidden md:block md:bottom-1 lg:bottom-1
 
                    ${
                      m.id === form.matriksId && form.nilai
