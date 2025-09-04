@@ -8,7 +8,6 @@ export const useNotifikasi = () => {
 
   const authHeaders = async () => {
     const token = await getToken();
-    console.log("token masbro:", token);
     return {
       headers: {
         Authorization: `Bearer ${token}`,
