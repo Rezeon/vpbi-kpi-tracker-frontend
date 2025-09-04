@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Bell, Menu } from "lucide-react";
+import { useEffect } from "react";
+import { Menu } from "lucide-react";
 import {
   SignedIn,
   SignedOut,
@@ -9,16 +9,11 @@ import {
 import Cari from "../assets/search.png";
 import { useAuthUser } from "../utils/authUser";
 import { useNavigate } from "react-router-dom";
-import { useNotifikasiContext } from "../store/notifikasi.context";
 import Notification from "./Notification"
 
 
 export default function Navbar({ onToggleSidebar }) {
-  const [showNotifications, setShowNotifications] = useState(false);
   const { user, userLogin, loading } = useAuthUser();
-  const { notifikasi, setNotifikasi } = useNotifikasiContext();
-  const [selectedNotif, setSelectedNotif] = useState(null);
-  const unreadCount = notifikasi.filter((item) => !item.status).length;
 
   const navigate = useNavigate()
 
