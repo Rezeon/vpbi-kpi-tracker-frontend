@@ -3,7 +3,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import DashboardLayout from "./layouts/DashboardLayout";
 import { Setting } from "./pages/Settings";
-import { SignedInUser } from "./components/sign-in";
+import { Karyawan } from "./pages/Karyawan";
+import { AddKaryawan } from "./pages/AddKaryawan";
+import { EditKaryawan } from "./pages/editKaryawan";
+
 
 export default function App() {
   return (
@@ -11,8 +14,11 @@ export default function App() {
       <DashboardLayout>
         <Routes>
           <Route path="/sign-in" element={<SignedInUser />} />
-          <Route path="/settings" element={<Setting />} />
           <Route path="/" element={<Dashboard />} />
+          <Route path="/settings" element={<Setting />} />
+          <Route path="/karyawan" element={<Karyawan />} />
+          <Route path="/karyawan/add" element={<AddKaryawan />} />
+          <Route path="/karyawan/edit/:id" element={<EditKaryawan />} />
         </Routes>
       </DashboardLayout>
     </BrowserRouter>
