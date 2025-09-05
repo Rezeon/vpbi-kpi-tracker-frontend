@@ -9,14 +9,14 @@ export const useAuthUser = () => {
   const [userLogin, setUserLogin] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     if (user) {
+      
       setLoading(true);
       getById(user.id)
         .then((res) => {
           if (!res.data) {
-            setUserLogin({ role: "", email: "", username: "" }); 
+            setUserLogin({ role: "", email: "", username: "" });
           } else {
             setUserLogin(res.data);
           }
@@ -25,6 +25,5 @@ export const useAuthUser = () => {
         .finally(() => setLoading(false));
     }
   }, [user]);
-
   return { userLogin, loading, user, error };
 };

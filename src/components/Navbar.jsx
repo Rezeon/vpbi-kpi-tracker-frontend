@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Bell, Menu } from "lucide-react";
+import { useEffect } from "react";
+import { Menu } from "lucide-react";
 import {
   SignedIn,
   SignedOut,
@@ -9,10 +9,12 @@ import {
 import Cari from "../assets/search.png";
 import { useAuthUser } from "../utils/authUser";
 import { useNavigate } from "react-router-dom";
+import Notification from "./notification/Notification"
+
 
 export default function Navbar({ onToggleSidebar }) {
-  const [showNotifications, setShowNotifications] = useState(false);
   const { user, userLogin, loading } = useAuthUser();
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -50,29 +52,11 @@ export default function Navbar({ onToggleSidebar }) {
           />
         </div>
       </div>
-
       {/* Right side: Notifications + Profile */}
       <div className="flex items-center space-x-4 relative">
-        {/* Notifications */}
-        <div className="relative">
-          <button
-            onClick={() => setShowNotifications(!showNotifications)}
-            className="p-2 rounded-full hover:bg-gray-100"
-          >
-            <Bell className="w-6 h-6 text-gray-600" />
-          </button>
-          {showNotifications && (
-            <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-4 z-10">
-              <p className="text-sm font-semibold">Notifications</p>
-              <ul className="mt-2 space-y-2 text-sm">
-                <li className="border-b pb-2">New user registered</li>
-                <li className="border-b pb-2">Order #1002 pending</li>
-                <li>System update available</li>
-              </ul>
-            </div>
-          )}
-        </div>
-
+      <Notification />
+      
+      
         {/* Profile Dropdown */}
         <div className="relative flex items-center gap-1">
           <SignedOut>
@@ -86,3 +70,4 @@ export default function Navbar({ onToggleSidebar }) {
     </nav>
   );
 }
+
