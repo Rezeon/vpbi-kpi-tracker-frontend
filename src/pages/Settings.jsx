@@ -19,9 +19,9 @@ export function Setting() {
     );
   }
   const matrik =
-    userLogin.role === "admin"
+    userLogin?.role === "admin"
       ? matrikKaryawan
-      : userLogin.divisiLeader?.karyawan?.flatMap((k) => k.matriks) ?? [];
+      : userLogin?.divisiLeader?.karyawan?.flatMap((k) => k.matriks) ?? [];
   return (
     <div className="w-full h-screen flex flex-col gap-3">
       {userLogin && (

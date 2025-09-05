@@ -7,24 +7,11 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 import Cari from "../assets/search.png";
-import { useAuthUser } from "../utils/authUser";
-import { useNavigate } from "react-router-dom";
 import Notification from "./notification/Notification"
 
 
 export default function Navbar({ onToggleSidebar }) {
-  const { user, userLogin, loading } = useAuthUser();
 
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (loading) return;
-    if (user === null) {
-      navigate("/sign-in");
-    } else if (userLogin === null) {
-      navigate("/settings");
-    }
-  },[]);
   return (
     <nav className="bg-white shadow px-4 py-2 flex items-center justify-between">
       {/* Left side: Hamburger (mobile only) + Search */}
