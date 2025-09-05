@@ -5,7 +5,7 @@ import {
 } from "../../store/createcontext/divisi.context";
 import { useState, useEffect, useContext } from "react";
 
-export function SettingDivisi() {
+export function SettingDivisi({ idEdit }) {
   const {
     divisi,
     loading,
@@ -35,7 +35,6 @@ export function SettingDivisi() {
     try {
       await handleDelete(id);
       toast.success("Division deleted successfully!");
-
       setForm({ nama: "", deskripsi: "", leaderId: null });
       setSelectedDivisiId(null);
     } catch (err) {
@@ -64,6 +63,11 @@ export function SettingDivisi() {
       toast.error("Gagal load data divisi");
     }
   };
+  useEffect(() => {
+    if (idEdit) {
+      handleSelectDivisi(idEdit);
+    }
+  }, [idEdit]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -136,7 +140,7 @@ export function SettingDivisi() {
               Select employee
             </option>
             {user
-              ?.filter((emp) => emp.role === "leader") 
+              ?.filter((emp) => emp.role === "leader")
               .map((emp) => (
                 <option key={emp.id} value={emp.id}>
                   {emp.username}

@@ -18,6 +18,7 @@ export function AddKaryawan() {
     tanggalMasuk: "",
     email: "",
   });
+
   useEffect(() => {
     async function userFetchById() {
       if (!userId) return;

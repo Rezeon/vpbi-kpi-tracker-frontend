@@ -29,6 +29,7 @@ export default function EmployeeTasksForm({ userLogin }) {
         deskripsi: form.deskripsi,
         bobot: Number(form.bobot),
       };
+
       await handleCreate(payload);
       setForm({
         karyawanId: "",
@@ -52,7 +53,6 @@ export default function EmployeeTasksForm({ userLogin }) {
 
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         {/* Division */}
-
         <div className="w-full h-auto rounded-2xl gap-2 bg-blue-600 text-[1rem] font-semibold font-sans flex items-center justify-between">
           <p className=" h-full rounded-2xl text-white shadow pl-6 ">
             Division

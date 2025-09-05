@@ -47,7 +47,7 @@ export function KaryawanProvider({ children }) {
 
   const handleUpdate = async (id, data) => {
     try {
-      const res = await update(data);
+      const res = await update(id, data);
       setKaryawans((prev) =>
         prev.map((item) => (item.id === id ? res.data : item))
       );

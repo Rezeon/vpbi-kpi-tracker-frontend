@@ -4,8 +4,6 @@ import Navbar from "../components/Navbar";
 
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar (mobile overlay) */}

@@ -17,7 +17,6 @@ export function DivisiProvider({ children }) {
         setLoading(true);
         const res = await getAll();
         setDivisi(res.data);
-        console.log(divisi)
       } catch (err) {
         console.error("Error fetching divisi:", err);
         setError(err);
@@ -73,7 +72,6 @@ export function DivisiProvider({ children }) {
         handleUpdate,
         getById,
         setNail,
-        
       }}
     >
       {children}

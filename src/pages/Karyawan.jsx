@@ -20,7 +20,6 @@ export function Karyawan() {
     divisi: divisiMap[emp.divisiId] || "Unknown",
     user: userMap[emp.userId] || "-",
   }));
-
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);

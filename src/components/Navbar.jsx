@@ -37,6 +37,7 @@ export default function Navbar({ onToggleSidebar }) {
 
         {/* Search box */}
         <div className="flex items-center relative w-[100%] sm:w-[40%] md:w-[40%] lg:w-[40%] h-full p2">
+
           <img
             src={Cari}
             alt=""
