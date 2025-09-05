@@ -48,6 +48,7 @@ export function AddKaryawan() {
       divisiId: Number(formData.divisiId),
       userId: Number(formData.userId),
     };
+    console.log([dataKaryawan])
     handleCreate(dataKaryawan);
     setFormData({
       nama: "",

@@ -26,7 +26,9 @@ export const useKaryawanKpi = () => {
       return axios.post(
         `${api_vpbi}/karyawan/api/add`,
         data,
-        await authHeaders()
+        await authHeaders(),
+        console.log(data)
+        
       );
     },
     update: async (data) => {

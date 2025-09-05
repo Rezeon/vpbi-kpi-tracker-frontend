@@ -47,8 +47,6 @@ export default function Dashboard() {
   const onProgressTasks = matrik.filter(
     (m) => !m.detail || m.detail.length === 0
   );
-  console.log(matrikKaryawan)
-  console.log(doneTasks)
   const task = {
     tasks: {
       allTask: matrik.length,

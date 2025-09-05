@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDivisiKpi } from "../api/divisiKpi";
-import { DivisiContext, PenilaianContext } from "./createcontext/divisi.context";
+import {
+  DivisiContext,
+  PenilaianContext,
+} from "./createcontext/divisi.context";
 import toast from "react-hot-toast";
 
 export function DivisiProvider({ children }) {
   const { getAll, getById, remove, update, create } = useDivisiKpi();
-  const {penilaian} = useContext(PenilaianContext)
+  const { penilaian } = useContext(PenilaianContext);
   const [divisi, setDivisi] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,12 +30,19 @@ export function DivisiProvider({ children }) {
     fetchDivisi();
   }, [penilaian]);
 
-  const handleDelete = async (data) => {
+  const handleDelete = async (id) => {
     try {
-      await remove(data);
-      setDivisi((prev) => prev.filter((item) => item.data !== data));
+      await remove(id);
+      setDivisi((prev) => prev.filter((item) => item.id !== id));
+      toast.success("Data berhasil dihapus");
     } catch (err) {
       console.error("Gagal delete:", err);
+      const errorMsg =
+        typeof err?.response?.data?.error === "string"
+          ? err.response.data.error
+          : err.message || "Gagal menghapus data";
+
+      toast.error(errorMsg);
       setError(err);
     }
   };
@@ -42,7 +52,9 @@ export function DivisiProvider({ children }) {
       const res = await create(data);
       setDivisi((prev) => [...prev, res.data]);
     } catch (err) {
-      toast.error("Gagal create:", err);
+      toast.error(
+        error?.response?.data?.error || error.message || "Gagal menghapus data"
+      );
       setError(err);
       throw err;
     }

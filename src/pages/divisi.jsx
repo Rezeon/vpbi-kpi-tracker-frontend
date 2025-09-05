@@ -11,19 +11,23 @@ import {
 import { Link } from "react-router-dom";
 
 export function Divisi() {
-  const { divisi, loading, error } = useContext(DivisiContext);
+  const { divisi, loading, error, handleDelete } = useContext(DivisiContext);
 
   // Fake KPI data generator for demo (you can replace with real values later)
   const data = useMemo(() => {
     return divisi.map((d, index) => ({
       id: d.id,
       division: d.nama,
-      kpi: `${80 + index * 2}%`, // mock KPI value
+      kpi: d.karyawan.flatMap((k) => k.matriks).length,
       target: "100%",
-      actual: `${70 + index * 3}%`,
-      progress: `${Math.min(100, 70 + index * 3)}%`,
-      status: index % 2 === 0 ? "On Track" : "At Risk",
-      head: d.head || "Unknown", // optional, add in your divisi object
+      actual: d.karyawan
+        .flatMap((k) => k.matriks)
+        .filter((m) => m.detail && m.detail.length > 0).length,
+      progress: d.karyawan
+        .flatMap((k) => k.matriks)
+        .filter((m) => !m.detail || m.detail.length === 0).length,
+      status: d.karyawan.flatMap((k) => k.matriks).length % 2 === 0 ? "On Track" : "At Risk",
+      head: d.leader.username,
     }));
   }, [divisi]);
 
@@ -37,7 +41,7 @@ export function Divisi() {
       { accessorKey: "division", header: "Division" },
       { accessorKey: "kpi", header: "KPI / Metrics" },
       { accessorKey: "target", header: "Target" },
-      { accessorKey: "actual", header: "Actual" },
+      { accessorKey: "actual", header: "Done Task" },
       { accessorKey: "progress", header: "Progress" },
       { accessorKey: "status", header: "Status" },
       { accessorKey: "head", header: "Responsible Person" },
@@ -64,13 +68,6 @@ export function Divisi() {
     ],
     []
   );
-
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this division?")) {
-      // TODO: implement delete logic with context or API call
-      console.log("Deleted division:", id);
-    }
-  };
 
   const table = useReactTable({
     data,
@@ -148,40 +145,20 @@ export function Divisi() {
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between mt-4">
-        <div className="text-sm text-gray-600">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
-        </div>
-        <div className="flex items-center space-x-1">
+      <div className="flex justify-end mt-4 space-x-2">
+        {Array.from({ length: table.getPageCount() }, (_, i) => (
           <button
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
+            key={i}
+            onClick={() => table.setPageIndex(i)}
+            className={`px-3 py-1 border rounded ${
+              table.getState().pagination.pageIndex === i
+                ? "bg-blue-600 text-white border-blue-600"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+            }`}
           >
-            ⏪
+            {i + 1}
           </button>
-          {Array.from({ length: table.getPageCount() }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => table.setPageIndex(i)}
-              className={`px-3 py-1 rounded ${
-                table.getState().pagination.pageIndex === i
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
-          >
-            ⏩
-          </button>
-        </div>
+        ))}
       </div>
     </div>
   );

@@ -196,7 +196,7 @@ export function Karyawan() {
                 <td className="px-4 py-2 text-sm text-gray-800 border-b border-gray-200">
                   {data.user}
                 </td>
-                <td className="px-4 py-2 text-sm text-gray-800 border-b border-gray-200 flex gap-1 text-white">
+                <td className="px-4 py-2 text-sm  border-b border-gray-200 flex gap-1 text-white">
                   <Link to={`/karyawan/edit/${data.id}`}>
                     <div className="bg-blue-500 hover:bg-blue-600 p-2 font-semibold rounded w-[fit-content]">
                       <FaEdit />
