@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDivisiKpi } from "../api/divisiKpi";
-import { DivisiContext } from "./createcontext/divisi.context";
+import { DivisiContext, PenilaianContext } from "./createcontext/divisi.context";
 import toast from "react-hot-toast";
 
 export function DivisiProvider({ children }) {
   const { getAll, getById, remove, update, create } = useDivisiKpi();
-
+  const {penilaian} = useContext(PenilaianContext)
   const [divisi, setDivisi] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [nail, setNail] = useState(null);
 
   useEffect(() => {
     async function fetchDivisi() {
@@ -24,7 +25,7 @@ export function DivisiProvider({ children }) {
       }
     }
     fetchDivisi();
-  }, []);
+  }, [penilaian]);
 
   const handleDelete = async (data) => {
     try {
@@ -70,6 +71,7 @@ export function DivisiProvider({ children }) {
         handleCreate,
         handleUpdate,
         getById,
+        setNail,
       }}
     >
       {children}

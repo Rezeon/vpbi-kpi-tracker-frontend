@@ -7,16 +7,22 @@ import { Karyawan } from "./pages/Karyawan";
 import { AddKaryawan } from "./pages/AddKaryawan";
 import { EditKaryawan } from "./pages/editKaryawan";
 import { Divisi } from "./pages/divisi";
+import { SignedInUser } from "./components/sign-in";
+import { SettingEditAdd } from "./pages/setting.divisi";
+
 
 export default function App() {
   return (
     <BrowserRouter>
       <DashboardLayout>
         <Routes>
+          <Route path="/sign-in" element={<SignedInUser />} />
+          <Route path="/divisi" element={<Divisi />} />
+          <Route path="/divisi/edit/:id" element={<SettingEditAdd />} />
+          <Route path="/divisi/add" element={<SettingEditAdd />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="/settings" element={<Setting />} />
           <Route path="/karyawan" element={<Karyawan />} />
-          <Route path="/divisi" element={<Divisi />} />
           <Route path="/karyawan/add" element={<AddKaryawan />} />
           <Route path="/karyawan/edit/:id" element={<EditKaryawan />} />
         </Routes>

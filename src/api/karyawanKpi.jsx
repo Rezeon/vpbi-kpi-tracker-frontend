@@ -36,10 +36,9 @@ export const useKaryawanKpi = () => {
         await authHeaders()
       );
     },
-    remove: async (data) => {
+    remove: async (id) => {
       return axios.delete(
-        `${api_vpbi}/karyawan/api/delete`,
-        data,
+        `${api_vpbi}/karyawan/api/delete/${id}`,
         await authHeaders()
       );
     },

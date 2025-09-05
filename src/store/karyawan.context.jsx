@@ -30,7 +30,7 @@ export function KaryawanProvider({ children }) {
       await remove(id);
       setKaryawans((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
-      console.error("Gagal delete:", err.responses.data);
+      console.error("Gagal delete:", err);
       setError(err);
     }
   };
