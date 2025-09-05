@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { use, useContext, useEffect, useState } from "react";
 import {
   KaryawanContext,
   DivisiContext,
@@ -8,7 +8,8 @@ import {
 export function AddKaryawan() {
   const { handleCreate } = useContext(KaryawanContext);
   const { divisi } = useContext(DivisiContext);
-  const { user } = useContext(UserContext);
+  const { user, getById } = useContext(UserContext);
+  const [userId, setUserId] = useState("");
   const [formData, setFormData] = useState({
     nama: "",
     posisi: "",
@@ -17,9 +18,26 @@ export function AddKaryawan() {
     tanggalMasuk: "",
     email: "",
   });
-
+  useEffect(() => {
+    async function userFetchById() {
+      if (!userId) return;
+      try {
+        const foundUser = user.find((i) => i.id === Number(userId));
+          setFormData((prev) => ({
+            ...prev,
+            nama: foundUser?.username || "",
+            email: foundUser?.email || "",
+          }));
+        
+      } catch (error) {
+        console.error("Gagal fetch user:", error);
+      }
+    }
+    userFetchById();
+  }, [userId]);
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setUserId(formData.userId);
   }
 
   function handleSubmit(e) {
