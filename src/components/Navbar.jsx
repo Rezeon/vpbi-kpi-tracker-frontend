@@ -9,7 +9,7 @@ import {
 import Cari from "../assets/search.png";
 import { useAuthUser } from "../utils/authUser";
 import { useNavigate } from "react-router-dom";
-import Notification from "./Notification"
+import Notification from "./notification/Notification"
 
 
 export default function Navbar({ onToggleSidebar }) {
@@ -52,10 +52,11 @@ export default function Navbar({ onToggleSidebar }) {
           />
         </div>
       </div>
-
       {/* Right side: Notifications + Profile */}
       <div className="flex items-center space-x-4 relative">
       <Notification />
+      
+      
         {/* Profile Dropdown */}
         <div className="relative flex items-center gap-1">
           <SignedOut>

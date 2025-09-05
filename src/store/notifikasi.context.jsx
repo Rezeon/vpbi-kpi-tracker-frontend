@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useNotifikasi } from "../api/notifikasi"; 
 import { NotifikasiContext } from "./createcontext/divisi.context";
 
@@ -23,7 +23,7 @@ export function NotifikasiProvider({ children }) {
     try {
       const res = await create(data);
       const newNotif = res.data;
-      setNotifikasi((prev) => [...prev, newNotif]);
+      setNotifikasi((prev) => [newNotif, ...prev]);
     } catch (err) {
       console.error("Gagal create:", err);
       setError(err);

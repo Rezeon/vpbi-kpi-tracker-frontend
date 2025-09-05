@@ -1,8 +1,8 @@
-import { useNotifikasiContext } from "../store/notifikasi.context";
+import { useNotifikasiContext } from "../../store/notifikasi.context";
 import { useEffect, useState } from "react";
 import { Bell } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
-import { useAuthUser } from "../utils/authUser"; 
+import { useAuthUser } from "../../utils/authUser"; 
 
 
 
@@ -19,16 +19,9 @@ export default function Notification() {
 
   useEffect(() => {
     if (!loading && userLogin) {
+
       getNotifById(userLogin.id);
 
-      // buat ngetes aja brok
-      // handleCreate({
-      //       userId: userLogin.id,
-      //       judul: "Notifikasi",
-      //       pesan: "Pesan notifikasi",
-      //       tipe: "in_app",
-      //       status: "terkirim"
-      //       });
     }
   }, [loading, userLogin]);
 
@@ -73,9 +66,13 @@ export default function Notification() {
               >
                 <Bell className="w-6 h-6 text-gray-600" />
                 {unreadCount > 0 && (
-                  <p className="text-xs text-blue-500 font-medium">
-                  {unreadCount} new
-                  </p>
+                  <span
+                    className="absolute -top-1 -right-1 px-1 min-w-[16px] h-4 
+                              flex items-center justify-center rounded-full 
+                              bg-blue-500 text-white text-[10px] font-semibold"
+                  >
+                    {unreadCount > 999 ? "999+" : unreadCount}
+                  </span>
                 )}
                 
               </button>
@@ -88,13 +85,13 @@ export default function Notification() {
                     </span>
                   </p>
                   <ul className="mt-3 space-y-3 text-sm max-h-64 overflow-y-auto">
-                    {[...notifikasi].map((item) => (
+                    {notifikasi.map((item) => (
                       <li
                       key={item.id}
                         onClick={() => {
                           setNotifikasi((prev) =>
                             prev.map((notif) =>
-                              notif.id === item.id ? { ...notif, status: item.status === "terkirim" } : notif
+                              notif.id === item.id ? { ...notif, status: item.status === "terkirim" ? "terbaca" : item.status } : notif
                             )
                           )
                           updateNotif(item.id, { ...item, status: item.status === "terbaca" });
@@ -135,17 +132,6 @@ export default function Notification() {
                       className="mt-5 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                     >
                       Close
-                    </button>
-                    <button
-                      onClick={() => {
-                        setNotifikasi((prev) =>
-                          prev.filter((n) => n.id !== selectedNotif.id)
-                        );
-                        setSelectedNotif(null);
-                      }}
-                      className="mt-5 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                    >
-                      Delete
                     </button>
                     </div>
                   </div>
