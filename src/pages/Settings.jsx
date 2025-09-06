@@ -5,6 +5,7 @@ import { SetingRole } from "../components/setting/setting.role";
 import { useAuthUser } from "../utils/authUser";
 import { MatriksContext } from "../store/createcontext/divisi.context";
 import { SettingPenilaian } from "../components/setting/setting.penilaian";
+import EmployeeTasksForm from "../components/EmployeeTasksForm";
 
 export function Setting() {
   const { userLogin, loading } = useAuthUser();
@@ -18,15 +19,32 @@ export function Setting() {
     );
   }
   const matrik =
-    userLogin.role === "admin"
+    userLogin?.role === "admin"
       ? matrikKaryawan
-      : userLogin.divisiLeader?.karyawan?.flatMap((k) => k.matriks) ?? [];
+      : userLogin?.divisiLeader?.karyawan?.flatMap((k) => k.matriks) ?? [];
+
   return (
     <div className="w-full h-screen flex flex-col gap-3">
-      {!userLogin?.role && <SetingRole />}
-      {userLogin?.role === "admin" && <SettingDivisi />}
-      {userLogin?.role === "leader" && <SettingPenilaian matrik={matrik} userLogin={userLogin} />}
-
+      {userLogin && (
+        <>
+          {userLogin?.role === "leader" && (
+            <EmployeeTasksForm userLogin={userLogin} />
+          )}
+        </>
+      )}
+      {userLogin && (
+        <>
+          {userLogin?.role === "admin" && (
+            <EmployeeTasksForm userLogin={userLogin} />
+          )}
+        </>
+      )}
+      {userLogin?.role === "leader" && (
+        <SettingPenilaian matrik={matrik} userLogin={userLogin} />
+      )}
+      {userLogin?.role === "admin" && (
+        <SettingPenilaian matrik={matrik} userLogin={userLogin} />
+      )}
     </div>
   );
 }

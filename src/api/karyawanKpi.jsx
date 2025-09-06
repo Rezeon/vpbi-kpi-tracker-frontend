@@ -23,13 +23,26 @@ export const useKaryawanKpi = () => {
       return axios.get(`${api_vpbi}/karyawan/api/${id}`, await authHeaders());
     },
     create: async (data) => {
-      return axios.post(`${api_vpbi}/karyawan/api/add`, data, await authHeaders());
+      return axios.post(
+        `${api_vpbi}/karyawan/api/add`,
+        data,
+        await authHeaders(),
+        console.log(data)
+        
+      );
     },
     update: async (data) => {
-      return axios.patch(`${api_vpbi}/karyawan/api/update`, data, await authHeaders());
+      return axios.patch(
+        `${api_vpbi}/karyawan/api/update`,
+        data,
+        await authHeaders()
+      );
     },
-    remove: async (data) => {
-      return axios.delete(`${api_vpbi}/karyawan/api/delete`, data, await authHeaders());
+    remove: async (id) => {
+      return axios.delete(
+        `${api_vpbi}/karyawan/api/delete/${id}`,
+        await authHeaders()
+      );
     },
   };
 };

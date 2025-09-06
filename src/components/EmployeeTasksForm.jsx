@@ -6,19 +6,25 @@ import {
 import toast from "react-hot-toast";
 
 export default function EmployeeTasksForm({ userLogin }) {
-  console.log(userLogin);
-
+  const now = new Date();
+  const monthName = now.toLocaleString("id-ID", { month: "long" });
+  const year = now.getFullYear();
   const [form, setForm] = useState({
     karyawanId: "",
     namaKPI: "",
     deskripsi: "",
     bobot: "",
+    tahun: year,
+    bulan: monthName,
   });
-  const {
-    handleCreate,
-    
-  } = useContext(MatriksContext);
+  const { handleCreate } = useContext(MatriksContext);
+  const { divisi } = useContext(DivisiContext);
+  const [selectedDivisi, setSelectedDivisi] = useState("");
 
+  const selectDivisi =
+    userLogin?.role === "admin"
+      ? divisi?.find((d) => d.id === Number(selectedDivisi))
+      : userLogin?.divisiLeader;
   const today = new Date().toISOString().split("T")[0];
 
   const [dueDate, setDueDate] = useState(today);
@@ -33,10 +39,20 @@ export default function EmployeeTasksForm({ userLogin }) {
         namaKPI: form.namaKPI,
         deskripsi: form.deskripsi,
         bobot: Number(form.bobot),
+        bulan: form.bulan,
+        tahun: Number(form.tahun),
       };
 
-      console.log("Final payload:", payload);
+      console.log("pay", payload);
       await handleCreate(payload);
+      setForm({
+        karyawanId: "",
+        namaKPI: "",
+        deskripsi: "",
+        bobot: "",
+        bulan: monthName,
+        tahun: year,
+      });
       toast.success("Matriks berhasil ditambahkan!");
     } catch (err) {
       const message =
@@ -48,20 +64,46 @@ export default function EmployeeTasksForm({ userLogin }) {
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-xl p-6 font-sans w-1/4">
+    <div className="bg-white shadow-lg rounded-xl p-6 font-sans w-full">
       <h2 className="text-xl font-semibold mb-6">Add Employee Task</h2>
 
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         {/* Division */}
-
-        <div className="w-full h-auto rounded-2xl gap-2 bg-blue-600 text-[1rem] font-semibold font-sans flex items-center justify-between">
-          <p className=" h-full rounded-2xl text-white shadow pl-6 ">
-            Division
-          </p>
-          <p className="text-white font-semibold font-sans pr-6 h-full transition-all duration-300 ">
-            {userLogin?.divisiLeader?.nama || "tidak ada divisi"}
-          </p>
-        </div>
+        {userLogin?.role === "admin" ? (
+          <div className="w-full group">
+            <label className="block mb-1 font-medium">Select Division</label>
+            <select
+              value={selectedDivisi}
+              onChange={(e) => setSelectedDivisi(e.target.value)}
+              className="w-full bg-transparent px-2 py-2 focus:outline-none"
+            >
+              <option value="" disabled hidden>
+                {" "}
+                Select employe
+              </option>
+              {divisi.map((emp) => (
+                <option key={emp.id} value={emp.id}>
+                  {emp.nama}
+                </option>
+              ))}
+            </select>
+            <div
+              className={`h-1 rounded-2xl transition-all duration-300 
+              ${
+                selectedDivisi ? "bg-blue-500 w-[100%]" : "bg-gray-400 w-[11%]"
+              }`}
+            />
+          </div>
+        ) : (
+          <div className="w-full h-auto rounded-2xl gap-2 bg-blue-600 text-[1rem] font-semibold font-sans flex items-center justify-between">
+            <p className=" h-full rounded-2xl text-white shadow pl-6 ">
+              Division
+            </p>
+            <p className="text-white font-semibold font-sans pr-6 h-full transition-all duration-300 ">
+              {userLogin?.divisiLeader?.nama || "tidak ada divisi"}
+            </p>
+          </div>
+        )}
 
         {/* Employee */}
         <div className="w-full group">
@@ -71,13 +113,13 @@ export default function EmployeeTasksForm({ userLogin }) {
             onChange={(e) => setForm({ ...form, karyawanId: e.target.value })}
             className="w-full bg-transparent px-2 py-2 focus:outline-none"
             required
-            disabled={!userLogin?.divisiLeader?.karyawan}
+            disabled={!selectDivisi?.karyawan?.length}
           >
             <option value="" disabled hidden>
               {" "}
               Select employe
             </option>
-            {userLogin?.divisiLeader?.karyawan?.map((emp) => (
+            {selectDivisi?.karyawan?.map((emp) => (
               <option key={emp.id} value={emp.id}>
                 {emp.nama}
               </option>

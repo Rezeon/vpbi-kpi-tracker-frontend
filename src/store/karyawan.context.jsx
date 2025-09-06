@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useKaryawanKpi } from "../api/karyawanKpi";
 import { KaryawanContext } from "./createcontext/divisi.context";
 
-
 export function KaryawanProvider({ children }) {
   const { getAll, getById, remove, update, create } = useKaryawanKpi();
 
@@ -15,7 +14,7 @@ export function KaryawanProvider({ children }) {
       try {
         setLoading(true);
         const res = await getAll();
-        setKaryawans(res.data); 
+        setKaryawans(res.data);
       } catch (err) {
         console.error("Error fetching karyawans:", err);
         setError(err);
@@ -41,7 +40,7 @@ export function KaryawanProvider({ children }) {
       const res = await create(data);
       setKaryawans((prev) => [...prev, res.data]);
     } catch (err) {
-      console.error("Gagal create:", err);
+      console.error("Gagal create:", err.responses.data);
       setError(err);
     }
   };
@@ -53,7 +52,7 @@ export function KaryawanProvider({ children }) {
         prev.map((item) => (item.id === id ? res.data : item))
       );
     } catch (err) {
-      console.error("Gagal update:", err);
+      console.error("Gagal update:", err.responses.data);
       setError(err);
     }
   };

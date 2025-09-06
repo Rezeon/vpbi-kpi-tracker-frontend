@@ -3,7 +3,6 @@ import TaskChart from "../components/TaskChart";
 import TaskReminder from "../components/TaskReminder";
 import { useAuthUser } from "../utils/authUser";
 import LoadingPage from "../components/loading/loading";
-import { useNavigate } from "react-router-dom";
 import { ClipboardCheck, NotebookPen, ClipboardPlus } from "lucide-react";
 import { useContext, useEffect } from "react";
 import { MatriksContext } from "../store/createcontext/divisi.context";
@@ -11,14 +10,6 @@ import { MatriksContext } from "../store/createcontext/divisi.context";
 export default function Dashboard() {
   const { userLogin, loading } = useAuthUser();
   const { matriks: matrikKaryawan } = useContext(MatriksContext);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!loading && !userLogin.role) {
-      navigate("/settings");
-    }
-  }, [loading, userLogin, navigate]);
 
   if (loading) {
     return (
@@ -28,12 +19,13 @@ export default function Dashboard() {
     );
   }
 
+
   if (!userLogin) return null;
 
   const matrik =
-    userLogin.role === "admin"
+    userLogin?.role === "admin"
       ? matrikKaryawan
-      : userLogin.divisiLeader?.karyawan?.flatMap((k) => k.matriks) ?? [];
+      : userLogin?.divisiLeader?.karyawan?.flatMap((k) => k.matriks) ?? [];
 
   const now = new Date();
   const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
@@ -46,7 +38,6 @@ export default function Dashboard() {
   const onProgressTasks = matrik.filter(
     (m) => !m.detail || m.detail.length === 0
   );
-
   const task = {
     tasks: {
       allTask: matrik.length,
@@ -109,16 +100,6 @@ export default function Dashboard() {
         <TaskChart />
         <TaskReminder matriks={matrik} />
       </div>
-
-      {userLogin ? (
-        <>
-          {userLogin?.role === "leader" && (
-            <EmployeeTasksForm userLogin={userLogin} />
-          )}
-        </>
-      ) : (
-        <div></div>
-      )}
     </div>
   );
 }

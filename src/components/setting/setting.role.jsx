@@ -1,8 +1,7 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../store/createcontext/divisi.context";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router";
 const createRole = {
   role: [
     { nama: "User", object: "user" },

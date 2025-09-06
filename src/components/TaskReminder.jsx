@@ -26,12 +26,11 @@ export default function TaskReminder({ matriks }) {
 
   return (
     <div className="mt-6">
-      <h2 className="text-lg font-semibold mb-2">Task Reminders</h2>
-      <div className="flex space-x-4 overflow-x-auto custom-scrollbar pb-2">
+      <div className="flex flex-wrap gap-4 custom-scrollbar pb-2">
         {matriks.map((task) => (
           <div
             key={task.id}
-            className="flex-shrink-0 w-64 bg-white shadow rounded-lg p-4 flex flex-col gap-2"
+            className="flex-shrink-0 w-[100%] sm:w-[100%] md:w-64 lg:w-64 bg-white shadow rounded-lg p-4 flex flex-col gap-2"
           >
             <div className="flex items-center justify-between">
               <h3 className="font-semibold">{task.namaKPI}</h3>
