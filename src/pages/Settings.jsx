@@ -22,6 +22,7 @@ export function Setting() {
     userLogin?.role === "admin"
       ? matrikKaryawan
       : userLogin?.divisiLeader?.karyawan?.flatMap((k) => k.matriks) ?? [];
+
   return (
     <div className="w-full h-screen flex flex-col gap-3">
       {userLogin && (
@@ -31,9 +32,19 @@ export function Setting() {
           )}
         </>
       )}
-      {!userLogin?.role && <SetingRole />}
-      {userLogin?.role === "admin" && <SettingDivisi />}
-      {userLogin?.role === "leader" && <SettingPenilaian matrik={matrik} userLogin={userLogin} />}
+      {userLogin && (
+        <>
+          {userLogin?.role === "admin" && (
+            <EmployeeTasksForm userLogin={userLogin} />
+          )}
+        </>
+      )}
+      {userLogin?.role === "leader" && (
+        <SettingPenilaian matrik={matrik} userLogin={userLogin} />
+      )}
+      {userLogin?.role === "admin" && (
+        <SettingPenilaian matrik={matrik} userLogin={userLogin} />
+      )}
     </div>
   );
 }
