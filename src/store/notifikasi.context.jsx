@@ -19,11 +19,15 @@ export function NotifikasiProvider({ children }) {
     }
   };
 
-  const handleCreate = async (data) => {
+  const handleCreate = async (data, showPopUp) => {
     try {
       const res = await create(data);
       const newNotif = res.data;
-      setNotifikasi((prev) => [newNotif, ...prev]);
+      
+      if (showPopUp) {
+        setNotifikasi((prev) => [newNotif, ...prev]);
+      }
+      
     } catch (err) {
       console.error("Gagal create:", err);
       setError(err);

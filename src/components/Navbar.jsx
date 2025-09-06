@@ -56,7 +56,6 @@ export default function Navbar({ onToggleSidebar }) {
       <div className="flex items-center space-x-4 relative">
       <Notification />
       
-      
         {/* Profile Dropdown */}
         <div className="relative flex items-center gap-1">
           <SignedOut>
