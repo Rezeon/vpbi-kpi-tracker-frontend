@@ -53,7 +53,7 @@ export default function Sidebar({
             />
           ) : (
             <div className="flex items-center justify-center gap-2">
-              <p>CLAMBS</p>{" "}
+              <p>CMLABS</p>{" "}
               <img src={react} alt="" className="w-[20%] aspect-square" />{" "}
             </div>
           )}
