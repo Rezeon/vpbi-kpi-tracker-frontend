@@ -7,6 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend
 } from "recharts";
 import { useAuthUser } from "../utils/authUser";
 import { MatriksContext } from "../store/createcontext/divisi.context";
@@ -59,6 +60,8 @@ export default function TaskChart() {
       m.bulan === selectedMonth &&
       (!m.detail || m.detail.length === 0)
   );
+  console.log("j", onProgressTasks)
+  console.log("ja", newTasks)
 
   const doneTasks = matrik.filter(
     (m) =>
@@ -185,6 +188,7 @@ export default function TaskChart() {
           <XAxis dataKey={view === "week" ? "day" : "week"} />
           <YAxis />
           <Tooltip />
+          <Legend />
           <Line
             type="monotone"
             dataKey="new"

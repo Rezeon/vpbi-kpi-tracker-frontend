@@ -6,7 +6,7 @@ import {
   PenilaianContext,
 } from "../../store/createcontext/divisi.context";
 import toast from "react-hot-toast";
-import { ChevronsDown, Settings2, Trash } from "lucide-react";
+import { ChevronsDown, Settings2, Trash, Trash2 } from "lucide-react";
 
 export function SettingPenilaian({ userLogin }) {
   const date = new Date();
@@ -166,10 +166,6 @@ export function SettingPenilaian({ userLogin }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const existingPenilaian = penilaian.find(
-        (p) => p.karyawanId === Number(karyawanId)
-      );
-
       const nilaiReal =
         (matriks.find((m) => m.id === Number(form.matriksId)).bobot *
           Number(form.nilai)) /
@@ -184,12 +180,7 @@ export function SettingPenilaian({ userLogin }) {
         });
       } else {
         await handleCreateDetail({
-          penilaianId: Number(existingPenilaian.id),
-          matriksId: Number(form.matriksId),
-          nilai: nilaiReal,
-        });
-        console.log({
-          penilaianId: Number(existingPenilaian.id),
+          penilaianId: Number(penilaianId),
           matriksId: Number(form.matriksId),
           nilai: nilaiReal,
         });
@@ -252,14 +243,14 @@ export function SettingPenilaian({ userLogin }) {
               </div>
               {d?.penilaian.length >= 1 && (
                 <div
-                  className="w-auto text-sm flex items-center justify-center p-2 rounded-xl text-white bg-red-400 absolute left-[30%] top-[15%] cursor-pointer "
+                  className="w-auto text-sm flex items-center justify-center p-2 rounded-xl text-white bg-red-400 absolute left-[60%] sm:left-[40%] md:left-[34%] lg:left-[30%] top-[15%] cursor-pointer "
                   onClick={() =>
                     handleDeletePenilaian(
                       penilaian.find((p) => p.id === penilaianAktif?.id)?.id
                     )
                   }
                 >
-                  Delete Penilaian
+                  <Trash2 size={20} />
                 </div>
               )}
               {d?.penilaian.length >= 1 && (
