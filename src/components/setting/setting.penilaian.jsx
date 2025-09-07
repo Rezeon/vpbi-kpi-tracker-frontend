@@ -8,18 +8,15 @@ import {
 import toast from "react-hot-toast";
 import { ChevronsDown, Settings2, Trash } from "lucide-react";
 
-export function SettingPenilaian({ matrik, userLogin }) {
+export function SettingPenilaian({ userLogin }) {
   const date = new Date();
   const monthName = date.toLocaleString("id-ID", { month: "long" });
   const [selectedYear, setSelectedYear] = useState(date.getFullYear());
-  const yearOptions = Array.from(
-    { length: 5 },
-    (_, i) => date.getFullYear() - i
-  );
 
   const {
     handleCreate: handleCreatePenilaian,
     handleUpdate: handleUpdatePenilaian,
+    handleDelete: handleDeletePenilaianCtx,
     penilaian,
   } = useContext(PenilaianContext);
   const { handleUpdate, handleDelete, matriks } = useContext(MatriksContext);
@@ -48,6 +45,7 @@ export function SettingPenilaian({ matrik, userLogin }) {
   ];
 
   const [karyawanId, setKaryawanId] = useState(null);
+  const [penilaianId, setPenilaianId] = useState(null);
   const [updateMatrik, setUpdateMatrik] = useState({});
   const [openDropdown, setOpenDropdown] = useState({});
 
@@ -125,6 +123,14 @@ export function SettingPenilaian({ matrik, userLogin }) {
       toast.error(err.message);
     }
   };
+  const handleDeletePenilaian = async (id) => {
+    try {
+      await handleDeletePenilaianCtx(Number(id));
+      toast.success("Penilaian telah terhapus");
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
 
   const handleCreate = async (id) => {
     try {
@@ -165,7 +171,7 @@ export function SettingPenilaian({ matrik, userLogin }) {
       );
 
       const nilaiReal =
-        (matrik.find((m) => m.id === Number(form.matriksId)).bobot *
+        (matriks.find((m) => m.id === Number(form.matriksId)).bobot *
           Number(form.nilai)) /
         100;
 
@@ -188,7 +194,7 @@ export function SettingPenilaian({ matrik, userLogin }) {
           nilai: nilaiReal,
         });
       }
-      await handleUpdatePenilaian(existingPenilaian.id, {
+      await handleUpdatePenilaian(penilaianId, {
         karyawanId: Number(karyawanId),
       });
       toast.success("Penilaian berhasil disimpan ");
@@ -216,17 +222,11 @@ export function SettingPenilaian({ matrik, userLogin }) {
         </select>
 
         <label className="font-medium">Tahun:</label>
-        <select
+        <input
           value={selectedYear}
           onChange={(e) => setSelectedYear(Number(e.target.value))}
           className="border px-2 py-1 rounded"
-        >
-          {yearOptions.map((y) => (
-            <option key={y} value={y}>
-              {y}
-            </option>
-          ))}
-        </select>
+        ></input>
       </div>
 
       {divisiLeader?.map((d) => {
@@ -245,10 +245,23 @@ export function SettingPenilaian({ matrik, userLogin }) {
           >
             <div className="w-full flex relative">
               <div className="w-auto text-2xl p-2 font-semibold">{d.nama}</div>
-              <div className="w-auto text-sm flex items-center justify-center p-1 rounded-xl text-white bg-amber-400 ">Total Skor: 
-                {" "}{penilaian.find((p) => p.id === penilaianAktif?.id)?.totalSkor || 0}
+              <div className="w-auto text-sm flex items-center justify-center p-2 rounded-xl text-white bg-amber-400 absolute left-[20%] top-[15%] ">
+                Total Skor:{" "}
+                {penilaian.find((p) => p.id === penilaianAktif?.id)
+                  ?.totalSkor || 0}
               </div>
-
+              {d?.penilaian.length >= 1 && (
+                <div
+                  className="w-auto text-sm flex items-center justify-center p-2 rounded-xl text-white bg-red-400 absolute left-[30%] top-[15%] cursor-pointer "
+                  onClick={() =>
+                    handleDeletePenilaian(
+                      penilaian.find((p) => p.id === penilaianAktif?.id)?.id
+                    )
+                  }
+                >
+                  Delete Penilaian
+                </div>
+              )}
               {d?.penilaian.length >= 1 && (
                 <div
                   onClick={() => toggleDropdown(d.id)}
@@ -348,7 +361,14 @@ export function SettingPenilaian({ matrik, userLogin }) {
                             />
                             <button
                               type="submit"
-                              onClick={() => setKaryawanId(d.id)}
+                              onClick={() => {
+                                setKaryawanId(d.id),
+                                  setPenilaianId(
+                                    penilaian.find(
+                                      (p) => p.id === penilaianAktif?.id
+                                    )?.id
+                                  );
+                              }}
                             >
                               Simpan
                             </button>
@@ -480,7 +500,9 @@ export function SettingPenilaian({ matrik, userLogin }) {
                       </div>
                     )
                 )}
-            {d.penilaian?.find((p) => p.bulan === selectedMonth) ? (
+            {d.penilaian?.find(
+              (p) => p.bulan === selectedMonth && p.tahun === selectedYear
+            ) ? (
               <div></div>
             ) : (
               <div

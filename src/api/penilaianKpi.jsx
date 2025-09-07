@@ -28,8 +28,8 @@ export const usePenilaian = () => {
     update: async (id,data) => {
       return axios.patch(`${api_vpbi}/penilaianKpi/api/update/${id}`, data, await authHeaders());
     },
-    remove: async (data) => {
-      return axios.delete(`${api_vpbi}/penilaianKpi/api/delete`, data, await authHeaders());
+    remove: async (id) => {
+      return axios.delete(`${api_vpbi}/penilaianKpi/api/delete/${id}`, await authHeaders());
     },
   };
 };

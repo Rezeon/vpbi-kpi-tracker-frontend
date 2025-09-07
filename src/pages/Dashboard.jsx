@@ -19,7 +19,6 @@ export default function Dashboard() {
     );
   }
 
-
   if (!userLogin) return null;
 
   const matrik =
@@ -46,17 +45,29 @@ export default function Dashboard() {
       {
         title: "Done Task",
         task: doneTasks.length,
-        image: <ClipboardCheck color="white" size={20} />,
+        image: (
+          <div className="w-[12%] aspect-square bg-blue-400 rounded-full flex items-center justify-center ">
+            <ClipboardCheck color="white" size={20} />
+          </div>
+        ),
       },
       {
         title: "In Progres",
         task: onProgressTasks.length,
-        image: <NotebookPen color="white" size={20} />,
+        image: (
+          <div className="w-[12%] aspect-square bg-green-400 rounded-full flex items-center justify-center ">
+            <NotebookPen color="white" size={20} />
+          </div>
+        ),
       },
       {
         title: "New task",
         task: newTasks.length,
-        image: <ClipboardPlus color="white" size={20} />,
+        image: (
+          <div className="w-[12%] aspect-square bg-yellow-400 rounded-full flex items-center justify-center ">
+            <ClipboardPlus color="white" size={20} />
+          </div>
+        ),
       },
     ],
   };
@@ -70,9 +81,7 @@ export default function Dashboard() {
               className=" h-44 p-2  bg-white shadow rounded-xl flex flex-col gap-3 items-start"
             >
               <div className="w-full h-1/2 flex items-center  gap-2 p-2 relative">
-                <div className="w-[12%] aspect-square bg-blue-400 rounded-full flex items-center justify-center ">
-                  {tak.image}
-                </div>
+                {tak.image}
                 <p className="text-lg text-gray-400 font-medium">{tak.title}</p>
                 <p className="text-2xl text-black font-bold absolute right-6">
                   {tak.task}
