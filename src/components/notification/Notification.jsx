@@ -11,10 +11,10 @@ import { useAuthUser } from "../../utils/authUser";
 export default function Notification() {
 
   const [showNotifications, setShowNotifications] = useState(false);
-  const { notifikasi, setNotifikasi, getNotifById, handleCreate, updateNotif } = useNotifikasiContext();
+  const { notifikasi, setNotifikasi, getNotifById, updateNotif } = useNotifikasiContext();
   const [selectedNotif, setSelectedNotif] = useState(null);
   const { isLoaded, isSignedIn } = useUser();
-  const { userLogin, loading, error } = useAuthUser();
+  const { userLogin, loading } = useAuthUser();
   const unreadCount = notifikasi.filter((item) => item.status === "terkirim").length;
 
   useEffect(() => {

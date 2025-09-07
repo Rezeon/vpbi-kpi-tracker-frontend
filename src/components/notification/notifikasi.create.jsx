@@ -7,8 +7,8 @@ import { useUserKpi } from "../../api/userKpi";
 export function NotifikasiCreate() {
 
      const { getAll } = useUserKpi();
-     const { userLogin, loading, error } = useAuthUser();
-     const { handleCreate } = useNotifikasiContext();
+     const { userLogin, loading  } = useAuthUser();
+     const { handleCreate, setError } = useNotifikasiContext();
 
     const notifikasiCreate = (judul, pesan, untuk) => {
         if (!loading && userLogin && untuk === "sendiri") {
