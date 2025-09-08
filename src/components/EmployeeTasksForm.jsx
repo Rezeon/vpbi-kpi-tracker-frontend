@@ -7,8 +7,8 @@ import toast from "react-hot-toast";
 
 export default function EmployeeTasksForm({ userLogin }) {
   const now = new Date();
-  const monthName = now.toLocaleString("id-ID", { month: "long" });
-  const year = now.getFullYear();
+  const monthName = now.toLocaleString("id-ID", { month: "long" }); //untuk mendapatkan bulan 
+  const year = now.getFullYear(); // untuk mendapatkan tahun
   const [form, setForm] = useState({
     karyawanId: "",
     namaKPI: "",
@@ -24,12 +24,12 @@ export default function EmployeeTasksForm({ userLogin }) {
   const selectDivisi =
     userLogin?.role === "admin"
       ? divisi?.find((d) => d.id === Number(selectedDivisi))
-      : userLogin?.divisiLeader;
-  const today = new Date().toISOString().split("T")[0];
+      : userLogin?.divisiLeader; // fungsi ini agar bisa membedakan admin dan user atau leader karena admin butuh semua data
+  const today = new Date().toISOString().split("T")[0]; // mendpatkan data hari ini 
 
   const [dueDate, setDueDate] = useState(today);
 
-  const pointsOptions = [10, 20, 30, 50];
+  const pointsOptions = [10, 20, 30, 40, 50, 60, 70, 80, 90];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +43,6 @@ export default function EmployeeTasksForm({ userLogin }) {
         tahun: Number(form.tahun),
       };
 
-      console.log("pay", payload);
       await handleCreate(payload);
       setForm({
         karyawanId: "",

@@ -1,5 +1,8 @@
 import React, { useContext, useState, useMemo } from "react";
-import { KaryawanContext } from "../store/createcontext/divisi.context";
+import {
+  KaryawanContext,
+  MatriksContext,
+} from "../store/createcontext/divisi.context";
 import { DivisiContext } from "../store/createcontext/divisi.context";
 import { UserContext } from "../store/createcontext/divisi.context";
 import { Link } from "react-router-dom";
@@ -10,16 +13,24 @@ export function Karyawan() {
   const { karyawans, loading, error, handleDelete } =
     useContext(KaryawanContext);
   const { divisi } = useContext(DivisiContext);
+  const { matriks } = useContext(MatriksContext);
   const { user } = useContext(UserContext);
 
   // Join tabel
   const divisiMap = Object.fromEntries(divisi.map((d) => [d.id, d.nama]));
   const userMap = Object.fromEntries(user.map((d) => [d.id, d.username]));
-  const data = karyawans.map((emp) => ({
-    ...emp,
-    divisi: divisiMap[emp.divisiId] || "Unknown",
-    user: userMap[emp.userId] || "-",
-  }));
+  const data = karyawans.map((emp) => {
+    const totalMatrik = emp.matriks?.length || 0;
+    const selesaiMatrik =
+      matriks?.filter((m) => m.karyawanId === emp.id && m.detail?.length > 0).length || 0;
+    return {
+      ...emp,
+      divisi: divisiMap[emp.divisiId] || "Unknown",
+      user: userMap[emp.userId] || "-",
+      totalMatrik,
+      selesaiMatrik, // jumlah matrik yang selesai
+    };
+  });
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -170,6 +181,30 @@ export function Karyawan() {
                     : "🔽"
                   : ""}
               </th>
+
+              <th
+                className="px-4 py-2 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 cursor-pointer"
+                onClick={() => handleSort("totalMatrik")}
+              >
+                Total Matrik{" "}
+                {sortConfig.key === "totalMatrik"
+                  ? sortConfig.direction === "asc"
+                    ? "🔼"
+                    : "🔽"
+                  : ""}
+              </th>
+
+              <th
+                className="px-4 py-2 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 cursor-pointer"
+                onClick={() => handleSort("selesaiMatrik")}
+              >
+                Matrik Selesai{" "}
+                {sortConfig.key === "selesaiMatrik"
+                  ? sortConfig.direction === "asc"
+                    ? "🔼"
+                    : "🔽"
+                  : ""}
+              </th>
               <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700 border-b border-gray-200 cursor-pointer">
                 Aksi
               </th>
@@ -196,6 +231,13 @@ export function Karyawan() {
                 <td className="px-4 py-2 text-sm text-gray-800 border-b border-gray-200">
                   {data.user}
                 </td>
+                <td className="px-4 py-2 text-sm text-gray-800 border-b border-gray-200">
+                  {data.totalMatrik}
+                </td>
+                <td className="px-4 py-2 text-sm text-gray-800 border-b border-gray-200">
+                  {data.selesaiMatrik}
+                </td>
+
                 <td className="px-4 py-2 text-sm  border-b border-gray-200 flex gap-1 text-white">
                   <Link to={`/karyawan/edit/${data.id}`}>
                     <div className="bg-blue-500 hover:bg-blue-600 p-2 font-semibold rounded w-[fit-content]">

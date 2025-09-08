@@ -10,7 +10,7 @@ import { ChevronsDown, Settings2, Trash, Trash2 } from "lucide-react";
 
 export function SettingPenilaian({ userLogin }) {
   const date = new Date();
-  const monthName = date.toLocaleString("id-ID", { month: "long" });
+  const monthName = date.toLocaleString("id-ID", { month: "long" }); //untuk mendapatkan bulan
   const [selectedYear, setSelectedYear] = useState(date.getFullYear());
 
   const {
@@ -49,7 +49,7 @@ export function SettingPenilaian({ userLogin }) {
   const [updateMatrik, setUpdateMatrik] = useState({});
   const [openDropdown, setOpenDropdown] = useState({});
 
-  const toggleDropdown = (id) => {
+  const toggleDropdown = (id) => { // untuk membuat dropdown matrik aggar sesuai id
     setOpenDropdown((prev) => ({
       ...prev,
       [id]: !prev[id],
@@ -73,9 +73,9 @@ export function SettingPenilaian({ userLogin }) {
       ? divisi.flatMap((d) => d.karyawan)
       : divisi
           .filter((d) => d.leaderId === userLogin.id)
-          .flatMap((d) => d.karyawan);
+          .flatMap((d) => d.karyawan); // agar membedakan admin dan user biasa, memungkinkan admin mendapat semua data
 
-  const pointsOptions = [10, 20, 30, 50];
+  const pointsOptions = [10, 20, 30, 40, 50, 60, 70, 80, 90];
   const [form, setForm] = useState({
     matriksId: "",
     nilai: "",
@@ -108,7 +108,6 @@ export function SettingPenilaian({ userLogin }) {
       setFormMatrik({ namaKPI: "", deskripsi: "", bobot: "", matrikId: "" });
       setUpdateMatrik({});
     } catch (err) {
-      console.error("Gagal update matriks:", err);
       toast.error("Gagal update matriks " + err.message);
     }
   };
@@ -169,11 +168,11 @@ export function SettingPenilaian({ userLogin }) {
       const nilaiReal =
         (matriks.find((m) => m.id === Number(form.matriksId)).bobot *
           Number(form.nilai)) /
-        100;
+        100; //mengkonfersi nilai input menjadi sesuai dengan bobot matrik
 
       const existingDetail = detail.find(
         (d) => d.matriksId === Number(form.matriksId)
-      );
+      );// cek jika detail penilaian ada .. jika ada akan di update jika tidak akan buat
       if (existingDetail) {
         await handleUpdateDetail(existingDetail.id, {
           nilai: nilaiReal,
@@ -186,7 +185,7 @@ export function SettingPenilaian({ userLogin }) {
         });
       }
       await handleUpdatePenilaian(penilaianId, {
-        karyawanId: Number(karyawanId),
+        karyawanId: Number(karyawanId), // berfungi untuk me refres totalSkor karena jika update akan otomatis akan menjumlah semua nilai skor
       });
       toast.success("Penilaian berhasil disimpan ");
       setForm({ matriksId: "", nilai: "" });

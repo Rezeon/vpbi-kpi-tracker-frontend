@@ -12,14 +12,14 @@ import { Link } from "react-router-dom";
 
 export function Divisi() {
   const { divisi, loading, error, handleDelete } = useContext(DivisiContext);
-
+  console.log("a",divisi)
   // Fake KPI data generator for demo (you can replace with real values later)
   const data = useMemo(() => {
     return divisi.map((d, index) => ({
       id: d.id,
       division: d.nama,
       kpi: d.karyawan.flatMap((k) => k.matriks).length,
-      target: "100%",
+      target: d?.target || "-",
       actual: d.karyawan
         .flatMap((k) => k.matriks)
         .filter((m) => m.detail && m.detail.length > 0).length,

@@ -140,8 +140,7 @@ export default function TaskChart() {
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold">Tasks Overview</h2>
 
-        <div className="flex gap-3 items-center mb-4">
-          <label className="font-medium">Pilih Bulan:</label>
+        <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row gap-3 text-sm sm:text-sm md:text-lg lg:text-lg  items-start mb-4">
           <select
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
@@ -153,8 +152,6 @@ export default function TaskChart() {
               </option>
             ))}
           </select>
-
-          <label className="font-medium">Tahun:</label>
           <input
             value={selectedYear}
             onChange={(e) => setSelectedYear(Number(e.target.value))}
@@ -162,7 +159,7 @@ export default function TaskChart() {
           />
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-col sm:flex-col md:flex-row lg:flex-row text-sm sm:text-sm md:text-lg lg:text-lg   ">
           <button
             className={`px-3 py-1 rounded ${
               view === "week" ? "bg-blue-500 text-white" : "bg-gray-200"
