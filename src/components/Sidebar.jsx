@@ -16,11 +16,11 @@ export default function Sidebar({
   loading;
   const menuItems = [
     { name: "Dashboard", icon: <Home size={20} />, path: "/" },
-    { name: "Reports", icon: <BarChart2 size={20} />, path: "/reports" },
-    { name: "Settings", icon: <Settings size={20} />, path: "/settings" },
     { name: "Divisi", icon: <Group size={20} />, path: "/divisi" },
-    { name: "Tasks", icon: <ClipboardList size={20} />, path: "/task" },
     { name: "Karyawan", icon: <Users size={20} />, path: "/karyawan" },
+    { name: "Settings", icon: <Settings size={20} />, path: "/settings" },
+    { name: "Tasks", icon: <ClipboardList size={20} />, path: "/task" },
+    { name: "Reports", icon: <BarChart2 size={20} />, path: "/reports" },
   ];
 
   const isCollapsed = forceCollapsed ? true : collapsed;

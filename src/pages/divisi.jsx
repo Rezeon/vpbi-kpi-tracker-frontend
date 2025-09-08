@@ -9,10 +9,11 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
+import LoadingPage from "../components/loading/loading";
 
 export function Divisi() {
   const { divisi, loading, error, handleDelete } = useContext(DivisiContext);
-  console.log("a",divisi)
+  console.log("a", divisi);
   // Fake KPI data generator for demo (you can replace with real values later)
   const data = useMemo(() => {
     return divisi.map((d, index) => ({
@@ -26,7 +27,10 @@ export function Divisi() {
       progress: d.karyawan
         .flatMap((k) => k.matriks)
         .filter((m) => !m.detail || m.detail.length === 0).length,
-      status: d.karyawan.flatMap((k) => k.matriks).length % 2 === 0 ? "On Track" : "At Risk",
+      status:
+        d.karyawan.flatMap((k) => k.matriks).length % 2 === 0
+          ? "On Track"
+          : "At Risk",
       head: d.leader.username,
     }));
   }, [divisi]);
@@ -82,7 +86,12 @@ export function Divisi() {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingPage />
+      </div>
+    );
   if (error) return <p>Error: {error}</p>;
 
   return (

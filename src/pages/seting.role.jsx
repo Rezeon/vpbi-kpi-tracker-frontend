@@ -6,7 +6,7 @@ export function SelectRole() {
   const { userLogin } = useAuthUser();
   return (
     <div className="w-full h-screen">
-      {userLogin?.role ? <SetingRole /> : <Navigate to="/select-role" replace /> }
+      {!userLogin?.role ? <SetingRole /> : <Navigate to="/" replace /> }
     </div>
   );
 }

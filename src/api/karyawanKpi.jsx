@@ -31,9 +31,9 @@ export const useKaryawanKpi = () => {
         
       );
     },
-    update: async (data) => {
+    update: async (id,data) => {
       return axios.patch(
-        `${api_vpbi}/karyawan/api/update`,
+        `${api_vpbi}/karyawan/api/update/${id}`,
         data,
         await authHeaders()
       );

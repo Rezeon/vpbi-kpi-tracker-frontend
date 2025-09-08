@@ -42,6 +42,9 @@ export function Setting() {
       {userLogin?.role === "leader" && (
         <SettingPenilaian matrik={matrik} userLogin={userLogin} />
       )}
+      {userLogin?.role === "user" && (
+        <SettingPenilaian matrik={matrik} userLogin={userLogin} />
+      )}
       {userLogin?.role === "admin" && (
         <SettingPenilaian matrik={matrik} userLogin={userLogin} />
       )}

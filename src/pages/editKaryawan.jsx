@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { KaryawanContext } from "../store/createcontext/divisi.context";
 import { DivisiContext } from "../store/createcontext/divisi.context";
 import { UserContext } from "../store/createcontext/divisi.context";
+import LoadingPage from "../components/loading/loading";
 
 export function EditKaryawan() {
   const { id } = useParams();
@@ -47,7 +48,12 @@ export function EditKaryawan() {
     navigate("/karyawan");
   };
 
-  if (loading) return <p>Loading... </p>;
+  if (loading)
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingPage />
+      </div>
+    );
   if (error) return <p>Error: {error}</p>;
   if (!row) return <p>Not Found</p>;
 

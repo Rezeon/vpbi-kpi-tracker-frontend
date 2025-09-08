@@ -7,6 +7,7 @@ import { DivisiContext } from "../store/createcontext/divisi.context";
 import { UserContext } from "../store/createcontext/divisi.context";
 import { Link } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import LoadingPage from "../components/loading/loading";
 
 export function Karyawan() {
   // Import functions
@@ -22,7 +23,8 @@ export function Karyawan() {
   const data = karyawans.map((emp) => {
     const totalMatrik = emp.matriks?.length || 0;
     const selesaiMatrik =
-      matriks?.filter((m) => m.karyawanId === emp.id && m.detail?.length > 0).length || 0;
+      matriks?.filter((m) => m.karyawanId === emp.id && m.detail?.length > 0)
+        .length || 0;
     return {
       ...emp,
       divisi: divisiMap[emp.divisiId] || "Unknown",
@@ -87,7 +89,12 @@ export function Karyawan() {
     }
   }
 
-  if (loading) return <p>Loading... </p>;
+  if (loading)
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingPage />
+      </div>
+    );
   if (error) return <p>Error: {error}</p>;
 
   return (

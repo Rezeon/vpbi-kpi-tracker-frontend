@@ -5,11 +5,15 @@ import { useAuthUser } from "../utils/authUser";
 import LoadingPage from "../components/loading/loading";
 import { ClipboardCheck, NotebookPen, ClipboardPlus } from "lucide-react";
 import { useContext, useEffect } from "react";
-import { MatriksContext } from "../store/createcontext/divisi.context";
+import {
+  DivisiContext,
+  MatriksContext,
+} from "../store/createcontext/divisi.context";
 
 export default function Dashboard() {
   const { userLogin, loading } = useAuthUser();
   const { matriks: matrikKaryawan } = useContext(MatriksContext);
+  const { divisi } = useContext(DivisiContext);
 
   if (loading) {
     return (
@@ -24,7 +28,9 @@ export default function Dashboard() {
   const matrik =
     userLogin?.role === "admin"
       ? matrikKaryawan
-      : userLogin?.divisiLeader?.karyawan?.flatMap((k) => k.matriks) ?? [];
+      : divisi
+          .find((d) => d.id === userLogin?.karyawan?.divisiId)
+          ?.karyawan?.flatMap((k) => k.matriks) ?? [];
 
   const now = new Date();
   const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
