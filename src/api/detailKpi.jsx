@@ -25,11 +25,11 @@ export const useDetailKpi = () => {
     create: async (data) => {
       return axios.post(`${api_vpbi}/detailPenilaian/api/add`, data, await authHeaders());
     },
-    update: async (data) => {
-      return axios.patch(`${api_vpbi}/detailPenilaian/api/update`, data, await authHeaders());
+    update: async (id, data) => {
+      return axios.patch(`${api_vpbi}/detailPenilaian/api/update/${id}`, data, await authHeaders());
     },
-    remove: async (data) => {
-      return axios.delete(`${api_vpbi}/detailPenilaian/api/delete`, data, await authHeaders());
+    remove: async (id) => {
+      return axios.delete(`${api_vpbi}/detailPenilaian/api/delete/${id}`, await authHeaders());
     },
   };
 };

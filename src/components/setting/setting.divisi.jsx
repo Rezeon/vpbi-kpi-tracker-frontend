@@ -5,25 +5,15 @@ import {
 } from "../../store/createcontext/divisi.context";
 import { useState, useEffect, useContext } from "react";
 
-export function SettingDivisi() {
-  const {
-    divisi,
-    loading,
-    error,
-    setDivisi,
-    handleDelete,
-    handleCreate,
-    handleUpdate,
-    getById,
-  } = useContext(DivisiContext);
+export function SettingDivisi({ idEdit }) {
+  const { divisi, handleDelete, handleCreate, handleUpdate, getById } =
+    useContext(DivisiContext);
   const { user } = useContext(UserContext);
   const [form, setForm] = useState({
     nama: "",
     deskripsi: "",
+    target: "",
     leaderId: null,
-  });
-  const [formDel, setFormDel] = useState({
-    id: null,
   });
 
   const handleSelectDelete = async (id) => {
@@ -35,7 +25,6 @@ export function SettingDivisi() {
     try {
       await handleDelete(id);
       toast.success("Division deleted successfully!");
-
       setForm({ nama: "", deskripsi: "", leaderId: null });
       setSelectedDivisiId(null);
     } catch (err) {
@@ -57,13 +46,18 @@ export function SettingDivisi() {
       setForm({
         nama: data.data.nama,
         deskripsi: data.data.deskripsi,
+        target: data.data.target,
         leaderId: data.data.leaderId,
       });
     } catch (err) {
-      console.error("Gagal ambil divisi:", err);
       toast.error("Gagal load data divisi");
     }
   };
+  useEffect(() => {
+    if (idEdit) {
+      handleSelectDivisi(idEdit);
+    }
+  }, [idEdit]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,17 +68,26 @@ export function SettingDivisi() {
     }
 
     try {
-      console.log("Final data:", form);
       const id = selectedDivisiId;
       if (selectedDivisiId) {
-        await handleUpdate(id, form);
+        await handleUpdate(id, {
+          nama: form.nama,
+          deskripsi: form.deskripsi,
+          target: Number(form.target),
+          leaderId: Number(form.leaderId),
+        });
         toast.success("Division updated successfully!");
       } else {
-        await handleCreate(form);
+        await handleCreate({
+          nama: form.nama,
+          deskripsi: form.deskripsi,
+          target: Number(form.target),
+          leaderId: Number(form.leaderId),
+        });
         toast.success("Division added successfully!");
       }
 
-      setForm({ nama: "", deskripsi: "", leaderId: null });
+      setForm({ nama: "", deskripsi: "", target: "", leaderId: null });
       setSelectedDivisiId(null);
     } catch (err) {
       console.error("Gagal submit:", err);
@@ -135,11 +138,13 @@ export function SettingDivisi() {
             <option value={null} disabled hidden>
               Select employee
             </option>
-            {user?.map((emp) => (
-              <option key={emp.id} value={emp.id}>
-                {emp.username}
-              </option>
-            ))}
+            {user
+              ?.filter((emp) => emp.role === "leader")
+              .map((emp) => (
+                <option key={emp.id} value={emp.id}>
+                  {emp.username}
+                </option>
+              ))}
           </select>
           <div
             className={`h-1 rounded-2xl transition-all duration-300 
@@ -161,7 +166,7 @@ export function SettingDivisi() {
           />
         </div>
         <div className="w-full h-auto p-3 flex flex-col gap-4">
-          <label className="block mb-1 font-medium ">Name Division</label>
+          <label className="block mb-1 font-medium ">Deskripsi Division</label>
           <textarea
             value={form.deskripsi}
             onChange={(e) => setForm({ ...form, deskripsi: e.target.value })}
@@ -173,6 +178,22 @@ export function SettingDivisi() {
           <div
             className={`h-1 rounded-2xl transition-all duration-300 
               ${form.deskripsi ? "bg-blue-500 w-[70%]" : "bg-gray-400 w-[5%]"}`}
+          />
+        </div>
+        <div className="w-full h-auto p-3 flex flex-col gap-4">
+          <label className="block mb-1 font-medium ">Target Division</label>
+          <input
+            value={form.target}
+            onChange={(e) => setForm({ ...form, target: e.target.value })}
+            className="w-full bg-transparent px-2 py-2 focus:outline-none"
+            placeholder="Enter division name"
+            required
+          />
+          <div
+            className={`h-1 rounded-2xl transition-all duration-300 
+                    ${
+                      form.target ? "bg-blue-500 w-[10%]" : "bg-gray-400 w-[5%]"
+                    }`}
           />
         </div>
         <button

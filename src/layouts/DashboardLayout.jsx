@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar (mobile overlay) */}
@@ -14,7 +13,7 @@ export default function DashboardLayout({ children }) {
         }`}
       >
         {/* Mobile sidebar (collapsed only) */}
-        <div className="w-20 bg-white shadow-lg">
+        <div className="w-13 bg-white shadow-lg">
           <Sidebar
             disableHover
             forceCollapsed
@@ -25,7 +24,7 @@ export default function DashboardLayout({ children }) {
         {/* Dark overlay */}
         {sidebarOpen && (
           <div
-            className="flex-1 bg-black bg-opacity-50 lg:hidden"
+            className="flex-1 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}

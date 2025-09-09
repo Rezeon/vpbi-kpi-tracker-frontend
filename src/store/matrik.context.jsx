@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useMatriksKpi } from "../api/matriksKpi";
 import { MatriksContext } from "./createcontext/divisi.context";
 
-
 export function MatrikProvider({ children }) {
   const { getAll, getById, remove, update, create } = useMatriksKpi();
 
@@ -10,19 +9,19 @@ export function MatrikProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    async function fetchMatrik() {
-      try {
-        setLoading(true);
-        const res = await getAll();
-        setMatriks(res.data); 
-      } catch (err) {
-        console.error("Error fetching matriks:", err);
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
+  const fetchMatrik = async () => {
+    try {
+      setLoading(true);
+      const res = await getAll();
+      setMatriks(res.data);
+    } catch (err) {
+      console.error("Error fetching matriks:", err);
+      setError(err);
+    } finally {
+      setLoading(false);
     }
+  }
+  useEffect(() => {
     fetchMatrik();
   }, []);
 
@@ -30,10 +29,11 @@ export function MatrikProvider({ children }) {
     try {
       await remove(id);
       setMatriks((prev) => prev.filter((item) => item.id !== id));
+      await fetchMatrik()
     } catch (err) {
       console.error("Gagal delete:", err);
       setError(err);
-      throw err
+      throw err;
     }
   };
 
@@ -41,10 +41,11 @@ export function MatrikProvider({ children }) {
     try {
       const res = await create(data);
       setMatriks((prev) => [...prev, res.data]);
+      await fetchMatrik()
     } catch (err) {
-      console.error("Gagal create:", err);
+      console.error("Gagal create:", err.message);
       setError(err);
-      throw err
+      throw err;
     }
   };
 
@@ -54,8 +55,9 @@ export function MatrikProvider({ children }) {
       setMatriks((prev) =>
         prev.map((item) => (item.id === id ? res.data : item))
       );
+      fetchMatrik()
     } catch (err) {
-      console.error("Gagal update:", err);
+      console.error("Gagal update:", err.message);
       setError(err);
     }
   };
@@ -66,6 +68,7 @@ export function MatrikProvider({ children }) {
         matriks,
         loading,
         error,
+        setMatriks,
         handleDelete,
         handleCreate,
         handleUpdate,

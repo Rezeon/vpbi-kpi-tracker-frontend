@@ -1,140 +1,146 @@
+import React, { useState, useContext, useEffect } from "react";
 import Button from "../ui/button/Button";
-import { useState, useEffect } from "react";
 import TaskCard from "./taskCard/taskCard";
 import Masonry from "react-masonry-css";
+import { useAuthUser } from "../../utils/authUser";
+import { DivisiContext, MatriksContext } from "../../store/createcontext/divisi.context";
 
+// ---------- Types ----------
 type Task = {
     id: number;
-    category: string;
-    title: string;
-    description: string;
-    date: string;
-    progress: string;
-    image?: string;
+    namaKPI: string;
+    deskripsi: string;
+    bulan: string;
+    tahun: number;
+    bobot: number;
+    karyawanId: number;
+    createdAt: string;
+    detail?: { id: number; nilai: number }[];
+    karyawan?: {
+        id: number;
+        nama: string;
+        divisiId: number;
+    };
 };
 
-export default function TaskComponent() {
+type MatriksKPI = Task;
+
+type Karyawan = {
+    id: number;
+    nama: string;
+    divisiId: number;
+    matriks: MatriksKPI[];
+};
+
+type Divisi = {
+    id: number;
+    nama: string;
+    deskripsi: string;
+    karyawan: Karyawan[];
+};
+
+type UserLogin = {
+    id: number;
+    role: "admin" | "leader" | "user";
+    karyawan?: {
+        id: number;
+        divisiId: number;
+    };
+};
+
+// ---------- Component ----------
+export default function TaskComponent({ onSelectMatriks }: { onSelectMatriks?: (id: number) => void }) {
     const [tasks, setTasks] = useState<Task[]>([]);
-    
+    const [filter, setFilter] = useState<"all" | "complete" | "new" | "progress">("all");
+
+    const { userLogin, loading } = useAuthUser() as {
+        userLogin: UserLogin | null;
+        loading: boolean;
+    };
+    const { matriks: matrikKaryawan } = useContext<{ matriks: MatriksKPI[] }>(MatriksContext);
+    const { divisi } = useContext<{ divisi: Divisi[] }>(DivisiContext);
+
+    const matrik =
+        userLogin?.role === "admin"
+            ? matrikKaryawan
+            : divisi.find((d) => d.id === userLogin?.karyawan?.divisiId)
+                ?.karyawan?.flatMap((k) => k.matriks) ?? [];
 
     useEffect(() => {
-        // 🔹 Dummy data (sementara, nanti ganti dengan fetch API)
-        const dummyTasks: Task[] = [
-        {
-            id: 1,
-            category: "Design",
-            title: "Create styleguide foundation",
-            description: "Create content for peceland App",
-            date: "Aug 20, 2021",
-            progress: "0/8",
-            image: "https://picsum.photos/300/200?random=1",
-        },
-        {
-            id: 2,
-            category: "Research",
-            title: "Auditing information architecture",
-            description: "Create content for peceland App",
-            date: "Aug 21, 2021",
-            progress: "2/5",
-        },
-        {
-            id: 3,
-            category: "Planning",
-            title: "Listing deliverables checklist",
-            description: "Plan for Q4 project",
-            date: "Sep 20, 2021",
-            progress: "5/10",
-            image: "https://picsum.photos/300/200?random=2"
-        },
-        {
-            id: 4,
-            category: "Content",
-            title: "Update support documentation",
-            description: "Write docs for new feature",
-            date: "Aug 16, 2021",
-            progress: "1/3",
-        },
-        {
-            id: 5,
-            category: "Design",
-            title: "High fidelity UI Desktop",
-            description: "Create Figma mockups",
-            date: "Aug 20, 2021",
-            progress: "0/8",
-            image: "https://picsum.photos/300/200?random=3",
-        },
-        {
-            id: 6,
-            category: "Planning",
-            title: "Create styleguide foundation",
-            description: "Create content for peceland App",
-            date: "Aug 20, 2021",
-            progress: "0/8",
-            
-        },
-        {
-            id: 7,
-            category: "Design",
-            title: "Create styleguide foundation",
-            description: "Create content for peceland App",
-            date: "Aug 20, 2021",
-            progress: "0/8",
-            image: "https://picsum.photos/300/200?random=1",
-        },
-        {
-            id: 8,
-            category: "Content",
-            title: "Create styleguide foundation",
-            description: "Create content for peceland App",
-            date: "Aug 20, 2021",
-            progress: "0/8",
-        },
-        {
-            id: 9,
-            category: "Design",
-            title: "Create styleguide foundation",
-            description: "Write docs for new feature",
-            date: "Aug 20, 2021",
-            progress: "0/8",
-            image: "https://picsum.photos/300/200?random=1",
-        },
-    ];
-
-    setTasks(dummyTasks);
+        setTasks(matrik);
     }, []);
-    
-    // useEffect(() => {
-    // fetch("http://localhost:5000/tasks")
-    //     .then((res) => res.json())
-    //     .then((data: Task[]) => setTasks(data))
-    //     .catch((err) => console.error(err));
-    // }, []);
+
+    // ---------------- FILTER LOGIC ----------------
+    const now = new Date();
+    const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
+
+    const newTasks = matrik.filter((task) => new Date(task.createdAt) >= oneWeekAgo);
+    const completeTasks = matrik.filter((m) => m.detail && m.detail.length > 0);
+    const progressTasks = matrik.filter((m) => m.detail && m.detail.length === 0);
+
+    const filteredTasks =
+        filter === "complete"
+            ? completeTasks
+            : filter === "new"
+                ? newTasks
+                : filter === "progress"
+                    ? progressTasks
+                    : matrik; // default "all"
+
+    // ---------------- UI ----------------
+    if (loading) return <p className="text-gray-500">Loading...</p>;
+    if (!userLogin) return <p className="text-red-500">Unauthorized</p>;
 
     return (
         <>
             <h2 className="text-xl mb-4 dark:text-white">Task</h2>
+
             {/* Filter buttons */}
             <div className="flex flex-wrap gap-3 mb-6">
-                <Button variant="outline" size="md" className="flex-1 sm:flex-none" >
-                Complete
+                <Button
+                    variant={filter === "complete" ? "primary" : "outline"}
+                    size="md"
+                    className="flex-1 sm:flex-none"
+                    onClick={() => setFilter("complete")}
+                >
+                    Complete
                 </Button>
-                <Button variant="outline" size="md" className="flex-1 sm:flex-none" >
-                To Do
+                <Button
+                    variant={filter === "new" ? "primary" : "outline"}
+                    size="md"
+                    className="flex-1 sm:flex-none"
+                    onClick={() => setFilter("new")}
+                >
+                    New Task
                 </Button>
-                <Button variant="outline" size="md" className="flex-1 sm:flex-none" >
-                In Progress
+                <Button
+                    variant={filter === "progress" ? "primary" : "outline"}
+                    size="md"
+                    className="flex-1 sm:flex-none"
+                    onClick={() => setFilter("progress")}
+                >
+                    In Progress
+                </Button>
+                <Button
+                    variant={filter === "all" ? "primary" : "outline"}
+                    size="md"
+                    className="flex-1 sm:flex-none"
+                    onClick={() => setFilter("all")}
+                >
+                    All
                 </Button>
             </div>
 
             {/* Grid TaskCard */}
             <Masonry
-                breakpointCols={{ default: 4, 1100: 3, 800: 2, 400:1 }}
+                breakpointCols={{ default: 4, 1100: 3, 800: 2, 400: 1 }}
                 className="flex gap-4"
                 columnClassName="space-y-4"
             >
-                {tasks.map((task) => (
-                    <TaskCard key={task.id} task={task} />
-                    ))}
+                {filteredTasks.map((task) => (
+                    <TaskCard key={task.id} task={task} onSelect={onSelectMatriks}         
+                        onViewBukti={onSelectMatriks} role={userLogin.role} />
+                ))}
             </Masonry>
         </>
     );

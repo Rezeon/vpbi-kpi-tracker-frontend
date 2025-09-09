@@ -1,39 +1,34 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useDivisiKpi } from "../api/divisiKpi";
-import {
-  DivisiContext,
-  PenilaianContext,
-} from "./createcontext/divisi.context";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useBuktiKpiService } from "../api/buktiKpi";
+import { BuktiContext } from "./createcontext/divisi.context";
 
-export function DivisiProvider({ children }) {
-  const { getAll, getById, remove, update, create } = useDivisiKpi();
-  const { penilaian } = useContext(PenilaianContext);
-  const [divisi, setDivisi] = useState([]);
+export function BuktiProvider({ children }) {
+  const { getAll, getById, remove, update, create } = useBuktiKpiService();
+  const [bukti, setBukti] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [nail, setNail] = useState(null);
 
   useEffect(() => {
     async function fetchDivisi() {
       try {
         setLoading(true);
         const res = await getAll();
-        setDivisi(res.data);
+        setBukti(res.data);
       } catch (err) {
-        console.error("Error fetching divisi:", err);
+        console.error("Error fetching bukti:", err);
         setError(err);
       } finally {
         setLoading(false);
       }
     }
     fetchDivisi();
-  }, [penilaian]);
+  }, [bukti]);
 
   const handleDelete = async (id) => {
     try {
       await remove(id);
-      setDivisi((prev) => prev.filter((item) => item.id !== id));
+      setBukti((prev) => prev.filter((item) => item.id !== id));
       toast.success("Data berhasil dihapus");
     } catch (err) {
       console.error("Gagal delete:", err);
@@ -50,7 +45,7 @@ export function DivisiProvider({ children }) {
   const handleCreate = async (data) => {
     try {
       const res = await create(data);
-      setDivisi((prev) => [...prev, res.data]);
+      setBukti((prev) => [...prev, res.data]);
     } catch (err) {
       toast.error(
         error?.response?.data?.error || error.message || "Gagal menghapus data"
@@ -63,7 +58,7 @@ export function DivisiProvider({ children }) {
   const handleUpdate = async (id, data) => {
     try {
       const res = await update(id, data);
-      setDivisi((prev) =>
+      setBukti((prev) =>
         prev.map((item) => (item.id === id ? res.data : item))
       );
     } catch (err) {
@@ -73,20 +68,19 @@ export function DivisiProvider({ children }) {
   };
 
   return (
-    <DivisiContext.Provider
+    <BuktiContext.Provider
       value={{
-        divisi,
+        bukti,
         loading,
         error,
-        setDivisi,
+        setBukti,
         handleDelete,
         handleCreate,
         handleUpdate,
         getById,
-        setNail,
       }}
     >
       {children}
-    </DivisiContext.Provider>
+    </BuktiContext.Provider>
   );
 }

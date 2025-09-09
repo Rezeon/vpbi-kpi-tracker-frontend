@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Home, BarChart2, Settings, ClipboardList } from "lucide-react";
-import task from "../assets/task.png"
+import { Home, BarChart2, Settings, Users, ClipboardList, Group } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import react from "../assets/react.png";
 import { useAuthUser } from "../utils/authUser";
@@ -17,9 +16,11 @@ export default function Sidebar({
   loading;
   const menuItems = [
     { name: "Dashboard", icon: <Home size={20} />, path: "/" },
-    { name: "Reports", icon: <BarChart2 size={20} />, path: "/reports" },
+    { name: "Divisi", icon: <Group size={20} />, path: "/divisi" },
+    { name: "Karyawan", icon: <Users size={20} />, path: "/karyawan" },
     { name: "Settings", icon: <Settings size={20} />, path: "/settings" },
     { name: "Tasks", icon: <ClipboardList size={20} />, path: "/task" },
+    { name: "Reports", icon: <BarChart2 size={20} />, path: "/reports" },
   ];
 
   const isCollapsed = forceCollapsed ? true : collapsed;
@@ -52,7 +53,7 @@ export default function Sidebar({
             />
           ) : (
             <div className="flex items-center justify-center gap-2">
-              <p>CLAMBS</p>{" "}
+              <p>CMLABS</p>{" "}
               <img src={react} alt="" className="w-[20%] aspect-square" />{" "}
             </div>
           )}
