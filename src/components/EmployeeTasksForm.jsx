@@ -78,7 +78,7 @@ export default function EmployeeTasksForm({ userLogin }) {
             >
               <option value="" disabled hidden>
                 {" "}
-                Select employe
+                Select division
               </option>
               {divisi.map((emp) => (
                 <option key={emp.id} value={emp.id}>
