@@ -33,7 +33,7 @@ export default function Task() {
 
       {/* Kanan → Sidebar */}
       <div className="w-full md:w-[300px] shrink-0 relative">
-        <div className="absolute top-28 space-y-4 flex flex-col">
+        <div className="sticky top-28 space-y-4 flex flex-col">
           {(userLogin.role === "admin" || userLogin.role === "leader") &&
             selectedMatriksId && (
               <ViewBuktiKPI
