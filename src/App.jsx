@@ -14,9 +14,10 @@ import { SelectRole } from "./pages/seting.role";
 import { useAuthUser } from "./utils/authUser";
 import { RoleAdminPage } from "./utils/protected.route";
 import { RoleAdminLeaderPage } from "./utils/protected.leader";
+import { Reports } from "./pages/Reports";
 
 export default function App() {
-  const {userLogin} = useAuthUser()
+  const { userLogin } = useAuthUser();
   return (
     <BrowserRouter>
       <DashboardLayout>
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/divisi" element={<Divisi />} />
             <Route path="/karyawan" element={<Karyawan />} />
+            <Route path="/reports" element={<Reports />} />
             <Route element={<RoleAdminLeaderPage userLogin={userLogin} />}>
               <Route path="/settings" element={<Setting />} />
             </Route>
