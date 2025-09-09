@@ -1,33 +1,23 @@
-# TailAdmin - Free Tailwind Admin Dashboard Template
+# VPBI-KPI-TRACKER
 
-TailAdmin is a high-quality, open-source, and **free Tailwind CSS admin template** that is perfect for creating data-rich backends,
-powerful web applications and dashboard-admin projects.
+project ini adalah untuk menilai kinerja karyawan per-divisi dengan role admin, leader dan user dengan penilaian per karyawan itu di diharapkan akan membuat kinerja dan efesiensi tugas akan tercapai
 
-![TailAdmin Dashboard Preview](./banner.png)
 
 ## Overview
 
-TailAdmin provides essential UI components and layouts for building feature-rich, data-driven admin dashboards and control panels. It's built using:
+project ini dibangun menggunakan 
 
-- HTML
-- Alpine.js
-- Tailwind CSS
-- and Webpack (for bundling)
+@FrontEnd
+- React.js
+- ReCharts
+- lucide-react
+- TailwindCSS
+- axios
+- react-router-dom
 
-### Quick Links
+@BackEnd
 
-- [✨ Visit Website](https://tailadmin.com)
-- [📄 Documentation](https://tailadmin.com/docs)
-- [⬇️ Download](https://tailadmin.com/download)
-- [🖌️ Figma Design File (Community Edition)](https://www.figma.com/community/file/1463141366275764364)
-- [⚡ Get PRO Version](https://tailadmin.com/pricing)
-
-### Demos
-
-- [Free Version](https://free-demo.tailadmin.com/)
-- [Pro Version](https://demo.tailadmin.com)
-
-### Other Versions
+### 
 
 - [Next.js Version](https://github.com/TailAdmin/free-nextjs-admin-dashboard)
 - [React.js Version](https://github.com/TailAdmin/free-react-tailwind-admin-dashboard)
