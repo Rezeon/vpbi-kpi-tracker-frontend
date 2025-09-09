@@ -171,9 +171,10 @@ POST /auth/logout` — logout
 
 * `GET /matriksKpi/all` — list KPI entries
 * `GET /matriksKpi/:id`
-* `POST /matriksKpi` — create penilaian
+* `POST /matriksKpi` — create matriks
 * `PUT /matriksKpi/update/:id` — update
-* `DELETE /matriksKpi/:delete/id` — hapus penilaian
+* `DELETE /matriksKpi/:delete/id` — hapus matriks
+
 **Detail / Scores**
 
 * `GET /detailPenilaian/all` — list KPI entries
@@ -181,6 +182,7 @@ POST /auth/logout` — logout
 * `POST /detailPenilaian` — create penilaian
 * `PUT /detailPenilaian/update/:id` — update
 * `DELETE /detailPenilaian/:delete/id` — hapus penilaian
+
 **Karyawan / User**
 
 * `GET /karyawan/all` — list Karyawan entries
@@ -188,13 +190,14 @@ POST /auth/logout` — logout
 * `POST /karyawan` — create Karyawan
 * `PUT /karyawan/update/:id` — update
 * `DELETE /karyawan/delete/:id` — hapus Karyawan
+
 **Penilaian / Score**
 
-* `GET /penilaianKpi/all` — list Karyawan entries
+* `GET /penilaianKpi/all` — list Penilaian entries
 * `GET /penilaianKpi/:id`
-* `POST /penilaianKpi` — create Karyawan
+* `POST /penilaianKpi` — create Penilaian
 * `PUT /penilaianKpi/update/:id` — update
-* `DELETE /penilaianKpi/delete/:id` — hapus Karyawan
+* `DELETE /penilaianKpi/delete/:id` — hapus Penilaian
 
 
 **Contoh header**
