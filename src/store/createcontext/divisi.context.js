@@ -8,3 +8,5 @@ export const MatriksContext = createContext();
 export const NotifikasiContext = createContext();
 export const PenilaianContext = createContext();
 export const UserContext = createContext();
+export const BuktiContext = createContext();
+

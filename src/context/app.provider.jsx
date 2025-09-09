@@ -6,6 +6,8 @@ import { MatrikProvider } from "../store/matrik.context";
 import { NotifikasiProvider } from "../store/notifikasi.context";
 import { PenilaianProvider } from "../store/penilaian.context";
 import { UserProvider } from "../store/user.context";
+import { BuktiProvider } from "../store/buktikpi.context";
+
 
 export function AppProviders({ children }) {
   return (
@@ -13,13 +15,15 @@ export function AppProviders({ children }) {
       <PenilaianProvider>
         <DivisiProvider>
           <KaryawanProvider>
-            <DetailProvider>
-              <MatrikProvider>
-                <NotifikasiProvider>
-                  <LaporanProvider>{children}</LaporanProvider>
-                </NotifikasiProvider>
-              </MatrikProvider>
-            </DetailProvider>
+            <BuktiProvider>
+              <DetailProvider>
+                <MatrikProvider>
+                  <NotifikasiProvider>
+                    <LaporanProvider>{children}</LaporanProvider>
+                  </NotifikasiProvider>
+                </MatrikProvider>
+              </DetailProvider>
+            </BuktiProvider>
           </KaryawanProvider>
         </DivisiProvider>
       </PenilaianProvider>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # VPBI-KPI-TRACKER
 
 project ini adalah untuk menilai kinerja karyawan per-divisi dengan role admin, leader dan user dengan penilaian per karyawan itu di diharapkan akan membuat kinerja dan efesiensi tugas akan tercapai
@@ -18,6 +19,7 @@ project ini dibangun menggunakan
 @BackEnd
 
 ### 
+
 
 - [Next.js Version](https://github.com/TailAdmin/free-nextjs-admin-dashboard)
 - [React.js Version](https://github.com/TailAdmin/free-react-tailwind-admin-dashboard)

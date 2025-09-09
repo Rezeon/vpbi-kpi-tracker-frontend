@@ -15,6 +15,7 @@ import { useAuthUser } from "./utils/authUser";
 import { RoleAdminPage } from "./utils/protected.route";
 import { RoleAdminLeaderPage } from "./utils/protected.leader";
 import { Reports } from "./pages/Reports";
+import Task from "./pages/Task/Task";
 
 export default function App() {
   const { userLogin } = useAuthUser();
@@ -28,7 +29,10 @@ export default function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/divisi" element={<Divisi />} />
             <Route path="/karyawan" element={<Karyawan />} />
+
             <Route path="/reports" element={<Reports />} />
+            <Route path="/task" element={<Task />} />
+
             <Route element={<RoleAdminLeaderPage userLogin={userLogin} />}>
               <Route path="/settings" element={<Setting />} />
             </Route>
