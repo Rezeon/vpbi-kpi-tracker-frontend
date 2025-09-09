@@ -13,7 +13,7 @@ export default function Task() {
   if (!userLogin) return <p className="text-red-500">Unauthorized</p>;
 
   return (
-    <div className="flex flex-col md:flex-row gap-6">
+    <div className="flex flex-col md:flex-row-reverse gap-6">
       {/* Kiri → Task board */}
       <div className="flex-1">
         <TaskComponent onSelectMatriks={(id) => setSelectedMatriksId(id)} />
