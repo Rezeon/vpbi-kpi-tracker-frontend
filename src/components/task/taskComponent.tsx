@@ -49,16 +49,9 @@ type UserLogin = {
 };
 
 // ---------- Component ----------
-export default function TaskComponent({ onSelectMatriks }: { onSelectMatriks?: (id: number) => void }) {
+export default function TaskComponent({ onSelectMatriks, userLogin, loading, divisi, matriks : matrikKaryawan }: { onSelectMatriks?: (id: number) => void; userLogin:UserLogin; loading:boolean; matriks:MatriksKPI[]; divisi:Divisi[] }) {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [filter, setFilter] = useState<"all" | "complete" | "new" | "progress">("all");
-
-    const { userLogin, loading } = useAuthUser() as {
-        userLogin: UserLogin | null;
-        loading: boolean;
-    };
-    const { matriks: matrikKaryawan } = useContext<{ matriks: MatriksKPI[] }>(MatriksContext);
-    const { divisi } = useContext<{ divisi: Divisi[] }>(DivisiContext);
 
     const matrik =
         userLogin?.role === "admin"
@@ -139,7 +132,7 @@ export default function TaskComponent({ onSelectMatriks }: { onSelectMatriks?: (
             >
                 {filteredTasks.map((task) => (
                     <TaskCard key={task.id} task={task} onSelect={onSelectMatriks}         
-                        onViewBukti={onSelectMatriks} role={userLogin.role} />
+                        onViewBukti={onSelectMatriks} userLogin={userLogin?.role} />
                 ))}
             </Masonry>
         </>

@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 import { NotifikasiContext } from "../store/createcontext/divisi.context";
 import toast from "react-hot-toast";
-import { useAuthUser } from "../utils/authUser";
 
-export default function TaskReminder({ matriks }) {
-  const { userLogin } = useAuthUser();
+export default function TaskReminder({ matriks, userLogin }) {
   const { handleCreate } = useContext(NotifikasiContext);
 
   const handleSendReminder = (userId) => {

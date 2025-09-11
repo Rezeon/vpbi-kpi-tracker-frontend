@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   LineChart,
   Line,
@@ -9,16 +9,13 @@ import {
   ResponsiveContainer,
   Legend
 } from "recharts";
-import { useAuthUser } from "../utils/authUser";
 import { MatriksContext } from "../store/createcontext/divisi.context";
 
-export default function TaskChart() {
+export default function TaskChart({userLogin, matrikKaryawan}) {
   const [view, setView] = useState("week");
-  const { userLogin } = useAuthUser();
   const date = new Date();
   const monthName = date.toLocaleString("id-ID", { month: "long" });
   const [selectedYear, setSelectedYear] = useState(date.getFullYear());
-  const { matriks: matrikKaryawan } = useContext(MatriksContext);
   const [selectedMonth, setSelectedMonth] = useState(monthName);
 
   const monthOptions = [

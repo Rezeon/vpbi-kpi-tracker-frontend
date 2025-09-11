@@ -8,7 +8,13 @@ import {
 import toast from "react-hot-toast";
 import { ChevronsDown, Settings2, Trash, Trash2 } from "lucide-react";
 
-export function SettingPenilaian({ userLogin }) {
+export function SettingPenilaian({
+  userLogin,
+  matriks,
+  handleDelete,
+  handleUpdate,
+  divisi
+}) {
   const date = new Date();
   const monthName = date.toLocaleString("id-ID", { month: "long" }); //untuk mendapatkan bulan
   const [selectedYear, setSelectedYear] = useState(date.getFullYear());
@@ -19,7 +25,6 @@ export function SettingPenilaian({ userLogin }) {
     handleDelete: handleDeletePenilaianCtx,
     penilaian,
   } = useContext(PenilaianContext);
-  const { handleUpdate, handleDelete, matriks } = useContext(MatriksContext);
 
   const {
     handleCreate: handleCreateDetail,
@@ -27,7 +32,6 @@ export function SettingPenilaian({ userLogin }) {
     handleDelete: handleDeleteDetail,
     detail,
   } = useContext(DetailContext);
-  const { divisi, setNail } = useContext(DivisiContext);
   const [selectedMonth, setSelectedMonth] = useState(monthName);
   const monthOptions = [
     "Januari",
@@ -49,7 +53,8 @@ export function SettingPenilaian({ userLogin }) {
   const [updateMatrik, setUpdateMatrik] = useState({});
   const [openDropdown, setOpenDropdown] = useState({});
 
-  const toggleDropdown = (id) => { // untuk membuat dropdown matrik aggar sesuai id
+  const toggleDropdown = (id) => {
+    // untuk membuat dropdown matrik aggar sesuai id
     setOpenDropdown((prev) => ({
       ...prev,
       [id]: !prev[id],
@@ -155,7 +160,6 @@ export function SettingPenilaian({ userLogin }) {
       });
 
       toast.success("Penilaian berhasil dibuat");
-      setNail(1);
     } catch (err) {
       console.error("Gagal submit:", err);
       toast.error("Gagal menyimpan penilaian");
@@ -172,7 +176,7 @@ export function SettingPenilaian({ userLogin }) {
 
       const existingDetail = detail.find(
         (d) => d.matriksId === Number(form.matriksId)
-      );// cek jika detail penilaian ada .. jika ada akan di update jika tidak akan buat
+      ); // cek jika detail penilaian ada .. jika ada akan di update jika tidak akan buat
       if (existingDetail) {
         await handleUpdateDetail(existingDetail.id, {
           nilai: nilaiReal,

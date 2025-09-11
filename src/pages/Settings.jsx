@@ -1,16 +1,14 @@
 import { useContext } from "react";
 import LoadingPage from "../components/loading/loading";
-import { SettingDivisi } from "../components/setting/setting.divisi";
-import { SetingRole } from "../components/setting/setting.role";
 import { useAuthUser } from "../utils/authUser";
-import { MatriksContext } from "../store/createcontext/divisi.context";
+import { DivisiContext, MatriksContext } from "../store/createcontext/divisi.context";
 import { SettingPenilaian } from "../components/setting/setting.penilaian";
 import EmployeeTasksForm from "../components/EmployeeTasksForm";
 
 export function Setting() {
   const { userLogin, loading } = useAuthUser();
-  const { matriks: matrikKaryawan } = useContext(MatriksContext);
-
+  const { matriks: matrikKaryawan, handleUpdate, handleDelete, handleCreate } = useContext(MatriksContext);
+  const {divisi} = useContext(DivisiContext)
   if (loading) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
@@ -18,10 +16,6 @@ export function Setting() {
       </div>
     );
   }
-  const matrik =
-    userLogin?.role === "admin"
-      ? matrikKaryawan
-      : userLogin?.divisiLeader?.karyawan?.flatMap((k) => k.matriks) ?? [];
 
   return (
     <div className="w-full h-screen flex flex-col gap-3">
@@ -35,18 +29,18 @@ export function Setting() {
       {userLogin && (
         <>
           {userLogin?.role === "admin" && (
-            <EmployeeTasksForm userLogin={userLogin} />
+            <EmployeeTasksForm handleCreate={handleCreate} divisi={divisi} userLogin={userLogin} />
           )}
         </>
       )}
       {userLogin?.role === "leader" && (
-        <SettingPenilaian matrik={matrik} userLogin={userLogin} />
+        <SettingPenilaian divisi={divisi}  matriks={matrikKaryawan} handleDelete={handleDelete} handleUpdate={handleUpdate} userLogin={userLogin} />
       )}
       {userLogin?.role === "user" && (
-        <SettingPenilaian matrik={matrik} userLogin={userLogin} />
+        <SettingPenilaian divisi={divisi}  matriks={matrikKaryawan} handleDelete={handleDelete} handleUpdate={handleUpdate} userLogin={userLogin} />
       )}
       {userLogin?.role === "admin" && (
-        <SettingPenilaian matrik={matrik} userLogin={userLogin} />
+        <SettingPenilaian divisi={divisi}  matriks={matrikKaryawan} handleDelete={handleDelete} handleUpdate={handleUpdate} userLogin={userLogin} />
       )}
     </div>
   );

@@ -23,19 +23,16 @@ interface TaskCardProps {
     task: Task;
     onSelect?: (id: number) => void;     // untuk user
     onViewBukti?: (id: number) => void;  // untuk admin/leader
-    role: "admin" | "leader" | "user";
+    userLogin: "admin" | "leader" | "user";
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, onSelect, onViewBukti, role }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ task, onSelect, onViewBukti, userLogin }) => {
     const hasDetail = task.detail && task.detail.length > 0;
 
-    // ✅ Ambil role dari auth
-    const { userLogin } = useAuthUser() as {
-        userLogin: { role: "admin" | "leader" | "user" } | null;
-    };
+
 
     const isAdminOrLeader =
-        userLogin?.role === "admin" || userLogin?.role === "leader";
+        userLogin === "admin" || userLogin === "leader";
 
     return (
         <div className="flex flex-col shadow-md rounded-2xl p-4 w-full h-fit border border-gray-200 dark:border-white/[0.05] dark:bg-white/[0.03] break-inside-avoid mb-4">
@@ -94,7 +91,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onSelect, onViewBukti, role }
                         onClick={() => onSelect(task.id)}
                         className="mt-3 px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700"
                     >
-                        {role === "user" ? "Upload Bukti" : "Lihat Bukti KPI"}
+                        {userLogin === "user" ? "Upload Bukti" : "Lihat Bukti KPI"}
                     </button>
                 )
             )}

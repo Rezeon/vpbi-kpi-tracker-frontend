@@ -21,16 +21,14 @@ interface FormBuktiKPIProps {
   karyawanId: number | null;
   bulan: string | null;
   onClose: () => void;
+  userLogin:UserLogin
 }
 
-export default function FormBuktiKPI({ matriksId, onClose }: FormBuktiKPIProps) {
+export default function FormBuktiKPI({ matriksId, onClose, userLogin }: FormBuktiKPIProps) {
   const { handleCreate } = useContext(BuktiContext);
   const date = new Date();
   const monthName = date.toLocaleString("id-ID", { month: "long" });
-  const { userLogin } = useAuthUser() as {
-    userLogin: UserLogin | null;
-    loading: boolean
-  };
+  
 
   const [deskripsi, setDeskripsi] = useState<string>("");
   const [fileUrl, setLinkBukti] = useState<string>("");

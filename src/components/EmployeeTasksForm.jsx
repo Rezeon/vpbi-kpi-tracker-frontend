@@ -1,11 +1,7 @@
-import { useState, useContext } from "react";
-import {
-  DivisiContext,
-  MatriksContext,
-} from "../store/createcontext/divisi.context";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
-export default function EmployeeTasksForm({ userLogin }) {
+export default function EmployeeTasksForm({ userLogin, divisi, handleCreate }) {
   const now = new Date();
   const monthName = now.toLocaleString("id-ID", { month: "long" }); //untuk mendapatkan bulan 
   const year = now.getFullYear(); // untuk mendapatkan tahun
@@ -17,8 +13,6 @@ export default function EmployeeTasksForm({ userLogin }) {
     tahun: year,
     bulan: monthName,
   });
-  const { handleCreate } = useContext(MatriksContext);
-  const { divisi } = useContext(DivisiContext);
   const [selectedDivisi, setSelectedDivisi] = useState("");
 
   const selectDivisi =

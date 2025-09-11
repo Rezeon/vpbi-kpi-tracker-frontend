@@ -23,7 +23,7 @@ export function BuktiProvider({ children }) {
       }
     }
     fetchDivisi();
-  }, [bukti]);
+  }, []);
 
   const handleDelete = async (id) => {
     try {

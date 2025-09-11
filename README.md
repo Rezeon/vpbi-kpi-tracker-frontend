@@ -150,7 +150,6 @@ npm run preview
 ## 8. API (Ringkasan endpoint umum)
 
 > Catatan: endpoint backend tergantung implementasi. Berikut contoh pola REST yang biasa digunakan.
-POST /auth/logout` — logout
 
 **Users**
 

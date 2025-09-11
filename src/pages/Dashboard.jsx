@@ -4,7 +4,7 @@ import TaskReminder from "../components/TaskReminder";
 import { useAuthUser } from "../utils/authUser";
 import LoadingPage from "../components/loading/loading";
 import { ClipboardCheck, NotebookPen, ClipboardPlus } from "lucide-react";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import {
   DivisiContext,
   MatriksContext,
@@ -112,8 +112,8 @@ export default function Dashboard() {
             </div>
           ))}
         </section>
-        <TaskChart />
-        <TaskReminder matriks={matrik} />
+        <TaskChart matrikKaryawan={matrikKaryawan} userLogin={userLogin} />
+        <TaskReminder userLogin={userLogin} matriks={matrik} />
       </div>
     </div>
   );
