@@ -153,51 +153,56 @@ npm run preview
 
 **Users**
 
-* `GET /user/all` — list users
-* `GET /user/:id` — detail user
-* `POST /user` — create user
+* `GET /user/api/all` — list users
+* `GET /user/api/:id` — detail user
+* `POST /user/api/register` — create user
 * `PUT /user/update/:id`— update user
 * `DELETE /user/delete/:id` — delete user
 
 **Divisions**
 
-* `GET /divisi/all`
-* `POST /divisi`
-* `PUT/divisi/update/:id`
-* `DELETE /divisi/delete/:id`
+* `GET /divisi/api/all`
+* `POST /divisi/api/add`
+* `PUT/divisi/api/update/:id`
+* `DELETE /divisi/api/delete/:id`
 
 **KPI / Scores**
 
-* `GET /matriksKpi/all` — list KPI entries
-* `GET /matriksKpi/:id`
-* `POST /matriksKpi` — create matriks
-* `PUT /matriksKpi/update/:id` — update
-* `DELETE /matriksKpi/:delete/id` — hapus matriks
+* `GET /matriksKpi/api/all` — list KPI entries
+* `GET /matriksKpi/api/:id`
+* `POST /matriksKpi/api/add` — create matriks
+* `PUT /matriksKpi/api/update/:id` — update
+* `DELETE /matriksKpi/api/:delete/id` — hapus matriks
 
 **Detail / Scores**
 
-* `GET /detailPenilaian/all` — list KPI entries
-* `GET /detailPenilaian/:id`
-* `POST /detailPenilaian` — create penilaian
-* `PUT /detailPenilaian/update/:id` — update
-* `DELETE /detailPenilaian/:delete/id` — hapus penilaian
+* `GET /detailPenilaian/api/all` — list KPI entries
+* `GET /detailPenilaian/api/:id`
+* `POST /detailPenilaian/api/add` — create penilaian
+* `PUT /detailPenilaian/api/update/:id` — update
+* `DELETE /detailPenilaian/api/:delete/id` — hapus penilaian
 
 **Karyawan / User**
 
-* `GET /karyawan/all` — list Karyawan entries
-* `GET /karyawan/:id`
-* `POST /karyawan` — create Karyawan
-* `PUT /karyawan/update/:id` — update
-* `DELETE /karyawan/delete/:id` — hapus Karyawan
+* `GET /karyawan/api/all` — list Karyawan entries
+* `GET /karyawan/api/:id`
+* `POST /karyawan/api/add` — create Karyawan
+* `PUT /karyawan/api/update/:id` — update
+* `DELETE /karyawan/api/delete/:id` — hapus Karyawan
 
 **Penilaian / Score**
 
-* `GET /penilaianKpi/all` — list Penilaian entries
-* `GET /penilaianKpi/:id`
-* `POST /penilaianKpi` — create Penilaian
-* `PUT /penilaianKpi/update/:id` — update
-* `DELETE /penilaianKpi/delete/:id` — hapus Penilaian
+* `GET /penilaianKpi/api/all` — list Penilaian entries
+* `GET /penilaianKpi/api/:id`
+* `POST /penilaianKpi/api/add` — create Penilaian
+* `PUT /penilaianKpi/api/update/:id` — update
+* `DELETE /penilaianKpi/api/delete/:id` — hapus Penilaian
 
+**Notifikasi **
+
+* `GET /notifikasi/api/:userId` — list Notifikasi entries
+* `POST /notifikasi/api/createNotifikasi` — create Notifikasi
+* `PUT /notifikasi/api/markAsRead/:id` — update
 
 **Contoh header**
 
