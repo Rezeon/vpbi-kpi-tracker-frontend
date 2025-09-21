@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import {
+  DivisiContext,
   KaryawanContext,
   PenilaianContext,
 } from "../store/createcontext/divisi.context";
@@ -16,12 +17,14 @@ import { Search, Calendar } from "lucide-react";
 import { useAuthUser } from "../utils/authUser";
 import { User } from "lucide-react";
 import LoadingPage from "../components/loading/loading";
+import { useUser } from "@clerk/clerk-react";
 
 export function Reports() {
   // import context
   const { userLogin, loading } = useAuthUser();
-
+  const { user } = useUser();
   const { penilaian } = useContext(PenilaianContext);
+  const { divisi } = useContext(DivisiContext);
   const { karyawans } = useContext(KaryawanContext);
   const [query, setQuery] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState("");
@@ -64,9 +67,19 @@ export function Reports() {
     "Desember",
   ];
 
-  const anggotaTim = userLogin.divisiLeader.karyawan.map((i) => i.nama);
-  console.log(anggotaTim);
+  const anggotaTim =
+    userLogin?.role === "user"
+      ? divisi
+          .find((d) => d.id === userLogin?.karyawan?.divisiId)
+          ?.karyawan.map((i) => i.nama)
+      : userLogin.divisiLeader.karyawan.map((i) => i.nama);
 
+  //const divisiLeader =
+  //  userLogin?.role === "admin"
+  //    ? divisi.flatMap((d) => d.karyawan)
+  //    : divisi
+  //        .filter((d) => d.leaderId === userLogin.id)
+  //        .flatMap((d) => d.karyawan);
   // Autocomplete
   const suggestions = query
     ? anggotaTim.filter((e) => e.toLowerCase().includes(query.toLowerCase()))
@@ -83,29 +96,38 @@ export function Reports() {
     return { month: m, score: found ? found.totalSkor : 0 };
   });
 
-  console.log(userLogin.divisiLeader);
-  console.log(karyawanData);
-
-  const avatar = null;
+  console.log(divisi.find((d) => d.id === userLogin?.karyawan?.divisiId));
+  const avatar = user.imageUrl;
   const name = userLogin.karyawan.nama;
   const username = userLogin.username;
   const email = userLogin.email;
   const position = userLogin.karyawan.posisi;
-  const department = `Departemen ${userLogin.divisiLeader.nama}`;
+  const department = `Departemen ${
+    userLogin?.role === "admin"
+      ? userLogin.divisiLeader.nama
+      : divisi.find((d) => d.id === userLogin?.karyawan?.divisiId)?.nama
+  }`;
   const joinSince = userLogin.karyawan.tanggalMasuk;
-  const teamMembers = userLogin.divisiLeader.karyawan.length;
-  const anggota = userLogin.divisiLeader.karyawan;
+  const teamMembers =
+    userLogin?.role === "admin"
+      ? userLogin.divisiLeader.karyawan.length
+      : divisi.find((d) => d.id === userLogin?.karyawan?.divisiId).karyawan
+          .length;
+  const anggota =
+    userLogin?.role === "admin"
+      ? userLogin.divisiLeader.karyawan
+      : divisi.find((d) => d.id === userLogin?.karyawan?.divisiId).karyawan;
 
   return (
     <>
-      <div className="grid grid-cols-12 gap-6 w-full mb-4">
-        <div className="col-span-4">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full mb-4">
+        <div className="col-span-1 md:col-span-4">
           <div className="w-full bg-white rounded-2xl shadow overflow-hidden border border-gray-100">
             <div className="p-6 flex flex-col items-center text-center">
               <h2 className="mb-4">Profil Team Leader</h2>
               {avatar ? (
                 <img
-                  src={avatar}
+                  src={user?.imageUrl}
                   alt={`${name} avatar`}
                   className="h-24 w-24 rounded-full object-cover ring-4 ring-white shadow-md"
                 />
@@ -142,7 +164,7 @@ export function Reports() {
           </div>
         </div>
 
-        <div className="col-span-8">
+        <div className="col-span-1 md:col-span-8">
           <div className="w-full h-full min-h-[300px] bg-white rounded-2xl border border-gray-100 flex flex-col items-center justify-center text-gray-400 shadow p-4">
             <h2 className="mb-4">Tabel Daftar Anggota</h2>
             <table className="w-full border border-gray-200 rounded-lg">
